@@ -10,6 +10,7 @@ For my Project #2, I'll be laying the CRUD foundation for an app called ChessMix
 
 #### Trello Board: https://trello.com/b/2jvyZhZk/chess-project
 #### ERD: ![ERD Table](assets/erd.png)
+• UserSchema will include array of Games
 
 #### Wireframes: ![Wireframes](assets/wireframes.png)
 
