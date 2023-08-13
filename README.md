@@ -2,9 +2,9 @@
 
 ## About
 
-For my Project #2, I'll be laying the CRUD foundation for an app called ChessMixed that I've had for a while, but haven't come close to being able to implement until now. For now, I'll be focusing on basic single user functionality, w/ an ambitious stretch goal to implement a 1v1 mode.
+For my Project #2, I'll be laying the CRUD foundation for an app called ChessMixed that I've had in  mind for a while, but haven't come close to being able to implement until now. For MVP, I'll be focusing on basic single user functionality, w/ an ambitious stretch goal to implement a 1v1 mode.
 
- *(The reason for the title "ChessMixed" will not be obvious until much later steps than for project week, but basically, I eventually want to build and app where you can play **Normal** chess OR **Wacky** chess with special player "powers" and random boardwide "events")*
+ *(The reason for the title "ChessMixed" will not become obvious until much later steps than for this week, but basically, I eventually want to build an app where you can play **Normal** chess OR **Whacky** chess with special player "powers" and random boardwide "events")*
 
 ## Project Planning
 
@@ -22,6 +22,6 @@ For my Project #2, I'll be laying the CRUD foundation for an app called ChessMix
 * jQuery
 * Express
 * MongoDB / Mongoose
-* chess.js
-* chessboard.js
+* [chess.js](https://github.com/jhlywa/chess.js/blob/master/README.md)
+* [chessboard.js](https://chessboardjs.com)
 
