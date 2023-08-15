@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../../../Desktop/The Journey/chess-test"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../w11/coffee-shop"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "chess-test"
+	}
+}

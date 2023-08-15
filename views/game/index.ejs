@@ -1,11 +1,16 @@
 <h2>Your Games</h2>
 
+<div id="testDisplay">
+  <div id ="testBoard"></div>
+</div>
+
 <ul>
-<% games.forEach(game => { %>
+  <% games.forEach(game => { %>
 
-<li>
+  <li>
+    <div id="<%= game._id %>" class="boardThumbnail fen:<%= game.fen %>"></div>
     <%= game.fen %>
-</li>
+  </li>
 
-<% }) %>
+  <% }) %>
 </ul>

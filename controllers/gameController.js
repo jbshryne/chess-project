@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const Game = require("../models/game");
+const { Chess } = require("chess.js");
+// const { Chessboard } = require("../public/js/chessboard-1.0.0");
+const chess = new Chess();
 
 // index route
 router.get("/", async (req, res) => {
   const games = await Game.find();
+  console.log(chess.ascii(games[0].fen));
   res.render("game/index", { games });
 });
 
