@@ -3,8 +3,9 @@ const router = express.Router();
 const Game = require("../models/game");
 
 // index route
-router.get("/", (req, res) => {
-  res.send("Your Games");
+router.get("/", async (req, res) => {
+  const games = await Game.find();
+  res.render("game/index", { games });
 });
 
 // seed route
