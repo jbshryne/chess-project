@@ -5,6 +5,6 @@ const testBoard = document.querySelector("#testBoard")
 
 console.log($testDisplay, testBoard)
 
-$testDisplay.append(Chessboard(testBoard))
+$testDisplay.append(Chessboard(testBoard, "start"))
 
 
