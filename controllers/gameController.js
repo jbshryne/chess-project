@@ -16,11 +16,13 @@ router.get("/", async (req, res) => {
 router.get("/seed", async (req, res) => {
   let seededGames = await Game.create([
     {
-      playerNames: ["Jon", "Ollie"],
+      playerWhite: "Jon",
+      playerBlack: "Ollie",
       fen: "rnbqkb1r/1ppp1ppp/4p2n/p7/3P4/5N2/PPPBPPPP/RN1QKB1R w KQkq - 2 4",
     },
     {
-      playerNames: ["Kirk", "Spock"],
+      playerWhite: "Kirk",
+      playerBlack: "Spock",
       fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
     },
   ]);

@@ -7,12 +7,14 @@ console.log("app.js says 'En Garde'!");
 
 // $testDisplay.append(Chessboard(testBoard, "start"))
 
-const $gameContainers = $(".gameContainer");
-// console.log($gameContainers.children());
+const $boardContainers = $(".boardContainer");
 
-$gameContainers.children().each((idx, div) => {
-  console.log($(div).children()[0].innerText);
-  const fen = $(div).children()[0].innerText
-  Chessboard(div, fen)
-  // $(div).child()
+$boardContainers.children().each((idx, div) => {
+  const fen = $(div)[0].dataset.fen;
+
+  const config = {
+    position: fen,
+    showNotation: false
+  }
+  Chessboard(div, config);
 });

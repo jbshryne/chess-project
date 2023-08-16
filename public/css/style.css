@@ -1,8 +1,45 @@
-.boardThumbnail {
-    width: 200px;
-    margin: 20px;
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-h2 {
-    color: red
+.gamesList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0% auto;
+}
+
+.gameContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  outline: auto 5px;
+  background-color: rgb(83, 69, 69, 0.9);
+  border-radius: 5%;
+  margin: 20px;
+  padding: 0px 50px;
+}
+
+.playerName {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: gold;
+  font-size: 20px;
+  font-weight: bold;
+  outline: default 1px;
+  padding: 5px;
+}
+
+.boardThumbnail {
+  width: 250px;
+}
+
+.playerColorImg {
+  height: 35px;
+  background-color: rgba(152, 152, 152, 0.5);
+  margin: 0px 10px
 }

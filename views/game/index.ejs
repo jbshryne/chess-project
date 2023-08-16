@@ -1,16 +1,19 @@
-<h2>Your Games</h2>
 
 <!-- <div id="testDisplay">
   <div id="testBoard"></div>
 </div> -->
 
-<ul>
+<h2>Your Games</h2>
+<ul class="gamesList">
   <% games.forEach(game => { %>
 
   <li class="gameContainer">
-    <div id="<%= game._id %>" class="boardThumbnail"> 
-      <span class="fen" hidden><%= game.fen %></span>
+    <span class="playerName"><img class="playerColorImg" src="/img/bK.png" /><%= game.playerBlack %></span>
+    <div class="boardContainer">
+      <div data-fen="<%= game.fen %>" id="<%= game._id %>" class="boardThumbnail">
+      </div>
     </div>
+    <span class="playerName"><img class="playerColorImg" src="/img/wK.png" /><%= game.playerWhite %></span>
   </li>
 
   <% }) %>
