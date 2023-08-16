@@ -3,11 +3,12 @@
   <div id="testBoard"></div>
 </div> -->
 
-<h2>Your Games</h2>
+<h1>Your Games</h1>
+
 <ul class="gamesList">
   <% games.forEach(game => { %>
 
-  <li class="gameContainer">
+  <a href="/games/<%= game._id %>"><li class="gameContainer">
     <span class="playerName"><img class="playerColorImg" src="/img/bK.png" /><%= game.playerBlack %></span>
     <div class="boardContainer">
       <div data-fen="<%= game.fen %>" id="<%= game._id %>" class="boardThumbnail">
@@ -15,6 +16,8 @@
     </div>
     <span class="playerName"><img class="playerColorImg" src="/img/wK.png" /><%= game.playerWhite %></span>
   </li>
-
+</a>
   <% }) %>
 </ul>
+
+<script src="/index.js" defer></script>

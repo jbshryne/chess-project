@@ -576,7 +576,7 @@
     // default piece theme is wikipedia
     if (!config.hasOwnProperty('pieceTheme') ||
         (!isString(config.pieceTheme) && !isFunction(config.pieceTheme))) {
-      config.pieceTheme = 'img/{piece}.png'
+      config.pieceTheme = '/img/{piece}.png'
     }
 
     // animation speeds
@@ -869,7 +869,7 @@
     }
 
     function buildPieceHTML (piece, hidden, id) {
-      var html = '<img src="/' + buildPieceImgSrc(piece) + '" '
+      var html = '<img src="' + buildPieceImgSrc(piece) + '" '
       if (isString(id) && id !== '') {
         html += 'id="' + id + '" '
       }

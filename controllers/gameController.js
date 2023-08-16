@@ -14,6 +14,7 @@ router.get("/", async (req, res) => {
 
 // seed route
 router.get("/seed", async (req, res) => {
+  await Game.deleteMany({})
   let seededGames = await Game.create([
     {
       playerWhite: "Jon",
@@ -28,5 +29,11 @@ router.get("/seed", async (req, res) => {
   ]);
   res.send(seededGames);
 });
+
+// show route
+router.get('/:id', async (req, res) => {
+  const game = await Game.findById(req.params.id)
+  res.render("game/show", {game})
+}) 
 
 module.exports = router;

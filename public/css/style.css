@@ -2,6 +2,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: rgb(146, 145, 145);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
 }
 
 .gamesList {
@@ -9,7 +15,6 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   list-style: none;
-  margin: 0% auto;
 }
 
 .gameContainer {
