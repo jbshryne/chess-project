@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "../w11/coffee-shop"
+		},
+		{
+			"path": "../w10/fruits-crud-full-stack"
 		}
 	],
 	"settings": {

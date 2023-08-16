@@ -12,9 +12,20 @@ router.get("/", async (req, res) => {
   res.render("game/index", { games });
 });
 
+// update route
+router.put("/:id", async (req, res) => {
+
+  console.log(req.body);
+  res.send("updated!")
+  // const game = await Game.findById(req.params.id);
+  // const chessjs = new Chess(req.params.id);
+  // chessjs.move();
+  // await Game.updateOne(game, { fen: chessjs.fen() });
+});
+
 // seed route
 router.get("/seed", async (req, res) => {
-  await Game.deleteMany({})
+  await Game.deleteMany({});
   let seededGames = await Game.create([
     {
       playerWhite: "Jon",
@@ -31,9 +42,11 @@ router.get("/seed", async (req, res) => {
 });
 
 // show route
-router.get('/:id', async (req, res) => {
-  const game = await Game.findById(req.params.id)
-  res.render("game/show", {game})
-}) 
+router.get("/:id", async (req, res) => {
+  const game = await Game.findById(req.params.id);
+  // const chessjs = new Chess(game.fen);
+  // console.log(chessjs);
+  res.render("game/show", { game });
+});
 
 module.exports = router;
