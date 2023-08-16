@@ -12,6 +12,11 @@ router.get("/", async (req, res) => {
   res.render("game/index", { games });
 });
 
+// new route
+router.get("/new", (req, res) => {
+  res.render("game/new")
+})
+
 // update route
 router.put("/:id", async (req, res) => {
   console.log(req.body);

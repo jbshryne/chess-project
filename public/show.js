@@ -87,6 +87,7 @@ function onDragStart (source, piece, position, orientation) {
   var config = {
     draggable: true,
     position: fen,
+    moveSpeed: "slow",
     onDragStart: onDragStart,
     onDrop: onDrop,
     onSnapEnd: onSnapEnd,

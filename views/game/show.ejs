@@ -1,11 +1,13 @@
 <main class="fullView">
   <span class="playerName"><%= game.playerBlack %></span>
-  <div data-fen="<%= game.fen %>" data-gameid="<%= JSON.stringify(game._id) %>" style="width: 480px" class="board">
+  <div class="boardBorder">
+    <div data-fen="<%= game.fen %>" data-gameid="<%= JSON.stringify(game._id) %>" style="width: 480px" class="board">
+    </div>
   </div>
   <span class="playerName"><%= game.playerWhite %></span>
   <div class="controls">
-    <a href="/games/<%= JSON.stringify(game._id) %>/edit"><button>EDIT BOARDSTATE</button></a>
-    <a href="/games"><button>BACK TO GAMES</button></a>
+    <a href="/games"><button id="homeBtn">BACK TO GAMES</button></a>
+    <a href="/games/<%= JSON.stringify(game._id) %>/edit" id="editBtn"><button>EDIT BOARDSTATE</button></a>
   </div>
 </main>
 <script src="/show.js" defer></script>
