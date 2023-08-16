@@ -28,6 +28,12 @@ a {
   padding: 0px 50px;
 }
 
+.fullView {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .playerName {
   display: flex;
   flex-direction: row;
@@ -39,6 +45,30 @@ a {
   padding: 5px;
 }
 
+.controls {
+  background-color: rgb(83, 69, 69, 0.5);
+  border-radius: 5%;
+  margin: 10px;
+  padding: 10px
+}
+
+.board {
+  outline: 4px ridge rgb(22, 20, 20);;
+  padding: 15px;
+  margin: 5px;
+  border-radius: 5%;
+  background-color: rgb(83, 69, 69);
+  
+}
+
+.gameContainer .playerName {
+  font-size: 20px;
+}
+
+.fullView .playerName {
+  font-size: 30px;
+}
+
 .boardThumbnail {
   width: 250px;
 }
@@ -46,5 +76,6 @@ a {
 .playerColorImg {
   height: 35px;
   background-color: rgba(152, 152, 152, 0.5);
+  border-radius: 50%;
   margin: 0px 10px
 }
