@@ -1,7 +1,7 @@
 // console.log($(".board")[0]);
 
 const fen = $(".board")[0].dataset.fen
-const gameId = $(".board")[0].dataset.gameId
+const gameId = $(".board")[0].dataset.gameid.replace(/"/g, '')
 console.log(gameId);
 const chess = new Chess(fen)
 let board = null
@@ -38,10 +38,10 @@ function onDragStart (source, piece, position, orientation) {
   function updateStatus () {
     // var status = ''
   
-    var moveColor = 'White'
-    if (chess.turn() === 'b') {
-      moveColor = 'Black'
-    }
+    // var moveColor = 'White'
+    // if (chess.turn() === 'b') {
+    //   moveColor = 'Black'
+    // }
   
     // checkmate?
     // if (chess.in_checkmate()) {
@@ -73,11 +73,11 @@ function onDragStart (source, piece, position, orientation) {
     console.log(chess.fen())
 
     const update = await fetch("/games/" + gameId + "?_method=PUT", {
-        method: "POST",
+        method: "PUT",
         headers: {
-          "Content-Type": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded", 
         },
-        body: chess.fen(),
+        body: new URLSearchParams({ fen: chess.fen() }).toString(), 
       });
 
       console.log(update);

@@ -14,13 +14,9 @@ router.get("/", async (req, res) => {
 
 // update route
 router.put("/:id", async (req, res) => {
-
   console.log(req.body);
-  res.send("updated!")
-  // const game = await Game.findById(req.params.id);
-  // const chessjs = new Chess(req.params.id);
-  // chessjs.move();
-  // await Game.updateOne(game, { fen: chessjs.fen() });
+  const update = await Game.findOneAndUpdate({ _id: req.params.id }, req.body);
+  console.log("update = " + update)
 });
 
 // seed route
