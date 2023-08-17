@@ -1,9 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Game = require("../models/game");
-// const { Chess } = require("chess.js");
-// const { Chessboard } = require("../public/js/chessboard-1.0.0");
-// const chess = new Chess();
 
 // index route
 router.get("/", async (req, res) => {
@@ -17,13 +14,21 @@ router.get("/new", (req, res) => {
   res.render("game/new");
 });
 
+// delete route
+router.delete("/:id", async (req, res) => {
+  console.log("delete route hit");
+  const id = req.params.id;
+  await Game.findByIdAndRemove(id);
+  res.redirect("/games");
+});
+
 // update route
 router.put("/:id", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const update = await Game.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true,
   });
-  console.log("update = " + update);
+  // console.log("update = " + update);
   res.json(update);
 });
 
