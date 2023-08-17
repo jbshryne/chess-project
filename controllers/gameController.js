@@ -42,6 +42,14 @@ router.get("/seed", async (req, res) => {
   res.send(seededGames);
 });
 
+// create route
+router.post("/", async (req, res) => {
+  // console.log(req.body);
+  const game = await Game.create(req.body)
+  console.log(game._id);
+  res.json(game)
+})
+
 // show route
 router.get("/:id", async (req, res) => {
   const game = await Game.findById(req.params.id);
