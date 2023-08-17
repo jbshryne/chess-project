@@ -1,0 +1,17 @@
+<main class="fullView freeMode">
+    <input type="text" id="playerBlackInput" value="<%= game.playerBlack %>" placeholder="Who is Playing Black?"></input>
+    <div class="boardBorder">
+      <div data-fen="<%= game.fen %>" data-gameid="<%= JSON.stringify(game._id) %>" style="width: 420px" class="board">
+      </div>
+    </div>
+    <input type="text" id="playerWhiteInput" value="<%= game.playerWhite %>" placeholder="Who is Playing White?"></input>
+    <div class="controls">
+      <a href="/games" id="homeBtn"><button>BACK TO GAMES</button></a>
+      <button id="startBtn">RESET BOARD</button>
+      <button id="clearBtn">CLEAR BOARD</button>
+      <button id="submitBtn">SAVE AND "CONTINUE"</button>
+    </div>
+  </main>
+  <script src="/new.js" defer></script>
+
+  <%# console.log(game) %>

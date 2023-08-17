@@ -14,14 +14,17 @@ router.get("/", async (req, res) => {
 
 // new route
 router.get("/new", (req, res) => {
-  res.render("game/new")
-})
+  res.render("game/new");
+});
 
 // update route
 router.put("/:id", async (req, res) => {
   console.log(req.body);
-  const update = await Game.findOneAndUpdate({ _id: req.params.id }, req.body);
-  console.log("update = " + update)
+  const update = await Game.findOneAndUpdate({ _id: req.params.id }, req.body, {
+    new: true,
+  });
+  console.log("update = " + update);
+  res.json(update);
 });
 
 // seed route
@@ -45,10 +48,16 @@ router.get("/seed", async (req, res) => {
 // create route
 router.post("/", async (req, res) => {
   // console.log(req.body);
-  const game = await Game.create(req.body)
+  let game = await Game.create(req.body);
   // console.log(game._id);
-  res.json(game)
-})
+  res.json(game);
+});
+
+// edit route
+router.get("/:id/edit", async (req, res) => {
+  const game = await Game.findById(req.params.id);
+  res.render("game/edit", { game });
+});
 
 // show route
 router.get("/:id", async (req, res) => {

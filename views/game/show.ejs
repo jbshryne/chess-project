@@ -7,9 +7,9 @@
   <span class="playerName"><%= game.playerWhite %></span>
   <div class="controls">
     <a href="/games"><button id="homeBtn">BACK TO GAMES</button></a>
-    <a href="/games/<%= JSON.stringify(game._id) %>/edit" id="editBtn"><button>EDIT BOARDSTATE</button></a>
+    <a href="/games/<%= JSON.stringify(game._id).replace(/"/g, '') %>/edit" id="editBtn"><button>EDIT BOARDSTATE</button></a>
   </div>
 </main>
 <script src="/show.js" defer></script>
 
-<% console.log(game) %>
+<%# console.log(game) %>

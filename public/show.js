@@ -73,14 +73,14 @@ function onDragStart (source, piece, position, orientation) {
     console.log(chess.fen())
 
     const update = await fetch("/games/" + gameId + "?_method=PUT", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded", 
-        },
-        body: new URLSearchParams({ fen: chess.fen() }).toString(), 
-      });
+      method: "PUT",
+      headers: {
+          "Content-Type": "application/x-www-form-urlencoded", 
+      },
+      body: new URLSearchParams({ fen: chess.fen() }).toString(), 
+    });
 
-      console.log(update);
+    console.log(update);
   }
   
   

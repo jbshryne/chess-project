@@ -1,7 +1,22 @@
-const chess = new Chess();
+let fen;
+let gameId;
+
+if (window.location.href.match(/new$/)) {
+    console.log("/new");
+  fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+}
+
+if (window.location.href.match(/edit$/)) {
+    console.log("/edit");
+    console.log($(".board")[0].dataset.fen);
+  fen = $(".board")[0].dataset.fen;
+  gameId = $(".board")[0].dataset.gameid.replace(/"/g, "");
+}
+
+const chess = new Chess(fen);
 
 const board = Chessboard($(".board")[0], {
-  position: "start",
+  position: fen,
   draggable: true,
   dropOffBoard: "trash",
   sparePieces: true,
@@ -17,7 +32,6 @@ $("#submitBtn").on("click", async () => {
   //   return
   // }
 
-  let fen = board.fen();
   if (board.fen() === "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR") {
     fen += " w KQkq - 0 1";
   }
@@ -25,19 +39,38 @@ $("#submitBtn").on("click", async () => {
   const bodyObj = {
     playerWhite: $("#playerWhiteInput").val(),
     playerBlack: $("#playerBlackInput").val(),
-    fen,
+    fen
   };
 
-  let res = await fetch("/games", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(bodyObj),
-  });
-  //   console.log(await res.json());
-  let response = await res.json();
+  if (window.location.href.match(/new$/)) {
+    let res = await fetch("/games", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bodyObj),
+    });
+    let response = await res.json();
     if (response) {
-      window.location = `/games/${response._id}`
+      console.log(response);
+    //   debugger;
+      window.location.href = `/games/${response._id}`;
     }
+  }
+
+  if (window.location.href.match(/edit$/)) {
+    bodyObj.fen = board.fen()
+    const res = await fetch("/games/" + gameId + "?_method=PUT", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bodyObj),
+    });
+
+    // let response = await res;
+    console.log(res);
+    // debugger;
+    window.location.href = `/games/${gameId}`;
+  }
 });
