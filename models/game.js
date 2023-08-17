@@ -7,6 +7,8 @@ const gameSchema = new Schema({
   playerBlack: { type: String, required: true },
   notes: [String],
   fen: { type: String, required: true },
+  capturedWhite: [String],
+  capturedBlack: [String],
   moveHistory: [String],
 });
 

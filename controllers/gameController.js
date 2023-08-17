@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const Game = require("../models/game");
-const { Chess } = require("chess.js");
+// const { Chess } = require("chess.js");
 // const { Chessboard } = require("../public/js/chessboard-1.0.0");
-const chess = new Chess();
+// const chess = new Chess();
 
 // index route
 router.get("/", async (req, res) => {
   const games = await Game.find();
-  console.log(chess.ascii(games[0].fen));
+  // console.log(chess.ascii(games[3].fen));
   res.render("game/index", { games });
 });
 
@@ -46,7 +46,7 @@ router.get("/seed", async (req, res) => {
 router.post("/", async (req, res) => {
   // console.log(req.body);
   const game = await Game.create(req.body)
-  console.log(game._id);
+  // console.log(game._id);
   res.json(game)
 })
 
