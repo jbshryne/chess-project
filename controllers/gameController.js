@@ -16,7 +16,6 @@ router.get("/new", (req, res) => {
 
 // delete route
 router.delete("/:id", async (req, res) => {
-  console.log("delete route hit");
   const id = req.params.id;
   await Game.findByIdAndRemove(id);
   res.redirect("/games");
@@ -39,7 +38,7 @@ router.get("/seed", async (req, res) => {
     {
       playerWhite: "Jon",
       playerBlack: "Ollie",
-      fen: "rnbqkb1r/1ppp1ppp/4p2n/p7/3P4/5N2/PPPBPPPP/RN1QKB1R w KQkq - 2 4",
+      fen: "rnbq1b1r/1ppPkppp/7n/8/8/p4N2/PPPBPPPP/RN1QKB1R w KQkq - 0 1",
     },
     {
       playerWhite: "Kirk",
@@ -47,7 +46,7 @@ router.get("/seed", async (req, res) => {
       fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
     },
   ]);
-  res.send(seededGames);
+  res.redirect("/games");
 });
 
 // create route

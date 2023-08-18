@@ -20,6 +20,14 @@ app.use(session({ secret: "PompomElves", cookie: { maxAge: 720000 } }));
 
 app.use(authRoutes);
 
+// app.use((req, res, next) => {
+//     if (!req.session.userId) {
+//       res.redirect("/login");
+//       return;
+//     }
+//     next()
+//   });
+
 app.use("/games", gameRoutes);
 
 app.listen(PORT, () => console.log(PORT, "is groovin'"));

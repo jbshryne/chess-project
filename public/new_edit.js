@@ -25,7 +25,6 @@ const board = Chessboard($(".board")[0], {
 $("#startBtn").on("click", board.start);
 $("#clearBtn").on("click", board.clear);
 $("#submitBtn").on("click", async () => {
-
   if (board.fen() === "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR") {
     fen += " w KQkq - 0 1";
   }
@@ -33,10 +32,10 @@ $("#submitBtn").on("click", async () => {
   const bodyObj = {
     playerWhite: $("#playerWhiteInput").val(),
     playerBlack: $("#playerBlackInput").val(),
-    fen,
   };
 
   if (window.location.href.match(/new$/)) {
+    bodyObj.fen = board.fen() + " w KQkq - 0 1";
     let res = await fetch("/games", {
       method: "POST",
       headers: {
@@ -53,7 +52,7 @@ $("#submitBtn").on("click", async () => {
   }
 
   if (window.location.href.match(/edit$/)) {
-    bodyObj.fen = board.fen();
+    bodyObj.fen = board.fen() + " w KQkq - 0 1";
     const res = await fetch("/games/" + gameId + "?_method=PUT", {
       method: "PUT",
       headers: {

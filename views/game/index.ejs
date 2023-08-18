@@ -12,10 +12,12 @@
 
     <li class="gameContainer">
       <span class="playerName"><img class="playerColorImg" src="/img/bK.png" /><%= game.playerBlack %></span>
+     <a href="/games/<%= game._id %>">
       <div class="boardContainer">
         <div data-fen="<%= game.fen %>" id="<%= game._id %>" class="boardThumbnail">
         </div>
       </div>
+      </a>
       <span class="playerName"><img class="playerColorImg" src="/img/wK.png" /><%= game.playerWhite %></span>
       <div class="controls"> <a href="/games/<%= game._id %>"><button>ENTER</button></a>
         <a href="/games/<%= game._id %>/edit"><button>EDIT</button></a>
