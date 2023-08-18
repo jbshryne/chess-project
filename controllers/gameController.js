@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-require("dotenv").config()
+require("dotenv").config();
 const Game = require("../models/game");
 
 // index route
@@ -24,7 +24,6 @@ router.delete("/:id", async (req, res) => {
 
 // update route (main)
 router.put("/:id", async (req, res) => {
-
   const update = await Game.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true,
   });
@@ -34,35 +33,60 @@ router.put("/:id", async (req, res) => {
 
 // update route for moves
 router.put("/:id/move", async (req, res) => {
-  console.log("update move route hit")
+  console.log("update move route hit");
 
-  const update = await Game.findOneAndUpdate({ _id: req.params.id }, req.body, {
+  const game = await Game.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true,
   });
-  res.json(update);
+  // res.json(game);
 
-  console.log(process.env.OPENAI_KEY);
+  if (game.opponent === "cpu") {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.OPENAI_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "user",
+            content: `We are playing chess are you're controlling Black.  I'll provide you with the current game's FEN position (and move history, if available). You will then make a move, by responding only with a move object in the following format:
+            
+            {
+              from: /* string of starting square, i.e. "g7" */,
+              to: /* string of destination square, i.e. "g5" */,
+              position?: /* if needed, string of piece symbol, i.e. "q"
+            }`,
+          },
+          {
+            role: "user",
+            content: `We are playing chess are you're controlling Black.  I'll provide you with the current game's FEN position. You will then make a move, by responding only with a move object in the following format:
+            
+            {
+              from: /* string of starting square, i.e. "g7" */,
+              to: /* string of destination square, i.e. "g5" */,
+              position?: /* if needed, string of piece symbol, i.e. "q"
+            }`,
+          },
+          {
+            role: "user",
+            content: game.fen
+          }
+        ],
+        max_tokens: 100,
+      }),
+    });
 
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.OPENAI_KEY}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      model: "gpt-3.5-turbo",
-      messages: [{
-        role: "user",
-        content: "Care for a game of chess?"
-      }]
-    })
-  })
+    const data = await response.json();
+    console.log("response from GPT: ", data.choices[0].message.content);
 
-  const data = await response.json()
-  console.log("response from GPT: ", data.choices[0].message);
-  
+    res.json(data)
+  } else {
+    res.json(game);
+  }
 });
-
 
 // seed route
 router.get("/seed", async (req, res) => {

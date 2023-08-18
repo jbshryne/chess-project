@@ -3,7 +3,7 @@
 const opponent = $(".board")[0].dataset.opponent;
 const fen = $(".board")[0].dataset.fen;
 const gameId = $(".board")[0].dataset.gameid.replace(/"/g, "");
-console.log(gameId);
+// console.log(gameId);
 const chess = new Chess(fen);
 let board = null;
 
@@ -108,7 +108,7 @@ function updateStatus() {
 }
 
 async function onChange() {
-  console.log(chess.fen());
+  // console.log(chess.fen());
 
   const update = await fetch("/games/" + gameId + "/move?_method=PUT", {
     method: "PUT",
@@ -118,7 +118,9 @@ async function onChange() {
     body: new URLSearchParams({ fen: chess.fen() }).toString(),
   });
 
-  console.log(update);
+  const data = await update.json()
+
+  console.log(data.choices[0].message.content);
 }
 
 const config = {
