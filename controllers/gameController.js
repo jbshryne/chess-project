@@ -33,14 +33,19 @@ router.put("/:id", async (req, res) => {
 
 // update route for moves
 router.put("/:id/move", async (req, res) => {
-  console.log("update move route hit");
+  console.log("update move route hit, req.body.turn = ", req.body.turn);
+  const {fen, turn, history} = req.body;
 
-  const game = await Game.findOneAndUpdate({ _id: req.params.id }, req.body, {
-    new: true,
-  });
+  const game = await Game.findOneAndUpdate(
+    { _id: req.params.id },
+    { fen },
+    {
+      new: true,
+    }
+  );
   // res.json(game);
 
-  if (game.opponent === "cpu") {
+  if (game.opponent === "cpu" && turn === "b") {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -52,28 +57,21 @@ router.put("/:id/move", async (req, res) => {
         messages: [
           {
             role: "user",
-            content: `We are playing chess are you're controlling Black.  I'll provide you with the current game's FEN position (and move history, if available). You will then make a move, by responding only with a move object in the following format:
-            
+            content: `We are playing chess are you're controlling Black.  
+            I'll provide you with the current game's FEN position (and move history, if available). 
+            You will then make a move, by responding with a move object in the following format in JSON style:
             {
               from: /* string of starting square, i.e. "g7" */,
               to: /* string of destination square, i.e. "g5" */,
               position?: /* if needed, string of piece symbol, i.e. "q"
-            }`,
+            }
+            I'm using your response as input for a function, so no additional commentary beyond just the object.`
+            ,
           },
           {
             role: "user",
-            content: `We are playing chess are you're controlling Black.  I'll provide you with the current game's FEN position. You will then make a move, by responding only with a move object in the following format:
-            
-            {
-              from: /* string of starting square, i.e. "g7" */,
-              to: /* string of destination square, i.e. "g5" */,
-              position?: /* if needed, string of piece symbol, i.e. "q"
-            }`,
+            content: `{fen: ${fen}, history: ${history}}`
           },
-          {
-            role: "user",
-            content: game.fen
-          }
         ],
         max_tokens: 100,
       }),
@@ -82,7 +80,7 @@ router.put("/:id/move", async (req, res) => {
     const data = await response.json();
     console.log("response from GPT: ", data.choices[0].message.content);
 
-    res.json(data)
+    res.json(data);
   } else {
     res.json(game);
   }

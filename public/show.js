@@ -7,7 +7,6 @@ const gameId = $(".board")[0].dataset.gameid.replace(/"/g, "");
 const chess = new Chess(fen);
 let board = null;
 
-
 // Function to show the promotion dialog
 function showPromotionDialog(move) {
   // Display the dialog
@@ -115,12 +114,26 @@ async function onChange() {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: new URLSearchParams({ fen: chess.fen() }).toString(),
+    body: new URLSearchParams({
+      fen: chess.fen(),
+      turn: chess.turn(),
+      history: chess.history()
+    }).toString(),
   });
 
-  const data = await update.json()
+  const data = await update.json();
 
-  console.log(data.choices[0].message.content);
+  if (data.choices) {
+
+    const move = JSON.parse(data.choices[0].message.content)
+    console.log(data.choices[0].message.content);
+
+    chess.move(move)
+    board.position(chess.fen())
+
+
+  }
+
 }
 
 const config = {
