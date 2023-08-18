@@ -1,10 +1,12 @@
 // console.log($(".board")[0]);
 
+const opponent = $(".board")[0].dataset.opponent;
 const fen = $(".board")[0].dataset.fen;
 const gameId = $(".board")[0].dataset.gameid.replace(/"/g, "");
 console.log(gameId);
 const chess = new Chess(fen);
 let board = null;
+
 
 // Function to show the promotion dialog
 function showPromotionDialog(move) {
@@ -108,7 +110,7 @@ function updateStatus() {
 async function onChange() {
   console.log(chess.fen());
 
-  const update = await fetch("/games/" + gameId + "?_method=PUT", {
+  const update = await fetch("/games/" + gameId + "/move?_method=PUT", {
     method: "PUT",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -119,7 +121,7 @@ async function onChange() {
   console.log(update);
 }
 
-var config = {
+const config = {
   draggable: true,
   position: fen,
   moveSpeed: "slow",

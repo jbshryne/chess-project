@@ -9,7 +9,8 @@
       <a href="/games" id="homeBtn"><button>BACK TO GAMES</button></a>
       <button id="startBtn">RESET BOARD</button>
       <button id="clearBtn">CLEAR BOARD</button>
-      <button id="submitBtn">SAVE AND "CONTINUE"</button>
+      <a href="/games/<%= game._id.toString() %>"><button>DISCARD CHANGES</button></a>
+      <button id="submitBtn">SAVE AND CONTINUE</button>
     </div>
   </main>
   <script src="/new_edit.js" defer></script>

@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+require("dotenv").config()
 const Game = require("../models/game");
 
 // index route
@@ -21,26 +22,60 @@ router.delete("/:id", async (req, res) => {
   res.redirect("/games");
 });
 
-// update route
+// update route (main)
 router.put("/:id", async (req, res) => {
-  // console.log(req.body);
+
   const update = await Game.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true,
   });
-  // console.log("update = " + update);
+
   res.json(update);
 });
+
+// update route for moves
+router.put("/:id/move", async (req, res) => {
+  console.log("update move route hit")
+
+  const update = await Game.findOneAndUpdate({ _id: req.params.id }, req.body, {
+    new: true,
+  });
+  res.json(update);
+
+  console.log(process.env.OPENAI_KEY);
+
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.OPENAI_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model: "gpt-3.5-turbo",
+      messages: [{
+        role: "user",
+        content: "Care for a game of chess?"
+      }]
+    })
+  })
+
+  const data = await response.json()
+  console.log("response from GPT: ", data.choices[0].message);
+  
+});
+
 
 // seed route
 router.get("/seed", async (req, res) => {
   await Game.deleteMany({});
-  let seededGames = await Game.create([
+  await Game.create([
     {
+      opponent: "local",
       playerWhite: "Jon",
       playerBlack: "Ollie",
       fen: "rnbq1b1r/1ppPkppp/7n/8/8/p4N2/PPPBPPPP/RN1QKB1R w KQkq - 0 1",
     },
     {
+      opponent: "cpu",
       playerWhite: "Kirk",
       playerBlack: "Spock",
       fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",

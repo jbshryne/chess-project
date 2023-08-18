@@ -19,7 +19,7 @@
       </div>
       </a>
       <span class="playerName"><img class="playerColorImg" src="/img/wK.png" /><%= game.playerWhite %></span>
-      <div class="controls"> <a href="/games/<%= game._id %>"><button>ENTER</button></a>
+      <div class="controls"> <a href="/games/<%= game._id %>"><button>PLAY</button></a>
         <a href="/games/<%= game._id %>/edit"><button>EDIT</button></a>
         <form action="/games/<%= game._id %>?_method=DELETE" method="POST">
           <input type="submit" value="DELETE" />

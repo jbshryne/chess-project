@@ -1,7 +1,7 @@
 const express = require("express");
 require("dotenv").config();
-// const PORT = process.env.PORT
-const PORT = 6464;
+const PORT = process.env.PORT
+// const PORT = 6464;
 const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
 const methodOverride = require("method-override")
