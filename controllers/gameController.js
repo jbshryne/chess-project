@@ -33,57 +33,60 @@ router.put("/:id", async (req, res) => {
 
 // update route for moves
 router.put("/:id/move", async (req, res) => {
-  console.log("update move route hit, req.body.turn = ", req.body.turn);
-  const {fen, turn, history} = req.body;
+  console.log("update move route hit, req.body.turn = ", req.body.currentTurn);
+  const { gameId, opponent, fen, currentTurn, history, difficultyLevel } =
+    req.body;
 
-  const game = await Game.findOneAndUpdate(
-    { _id: req.params.id },
+  // res.json(game);
+
+  // if (opponent === "cpu" && currentTurn === "b") {
+  //   const response = await fetch("https://api.openai.com/v1/chat/completions", {
+  //     method: "POST",
+  //     headers: {
+  //       Authorization: `Bearer ${process.env.OPENAI_KEY}`,
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       model: "gpt-4",
+  //       messages: [
+  //         {
+  //           role: "user",
+  //           content: `You are the engine of a chess app. 
+  //           I'll provide you with the current gamestate, and will then make a move, by responding with a move object:
+  //           {
+  //             from: /* string of starting square, i.e. "g7" */,
+  //             to: /* string of destination square, i.e. "g5" */,
+  //             position?: /* if needed, string of piece symbol, i.e. "q"
+  //           }
+  //           Your response to this query will be read by a JSON parser as part of a function.  
+  //           Your response must simply be the JSON object.  
+  //           Do not preface your response object with any conversational setup, as that would cause the function to fail.`,
+  //         },
+  //         {
+  //           role: "user",
+  //           content: `{ colorToMoveOnYourTurn: "${currentTurn}, currentDifficulty: ${difficultyLevel}, fen: ${fen}, history: ${history}}`,
+  //         },
+  //       ],
+  //       max_tokens: 50,
+  //     }),
+  //   });
+
+  //   const data = await response.json();
+  //   console.log("response from GPT: ", data.choices[0].message.content);
+
+
+
+  //   res.json(data);
+  // }
+
+  await Game.findOneAndUpdate(
+    { _id: gameId },
     { fen },
     {
       new: true,
     }
   );
-  // res.json(game);
-
-  if (game.opponent === "cpu" && turn === "b") {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.OPENAI_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [
-          {
-            role: "user",
-            content: `We are playing chess are you're controlling Black.  
-            I'll provide you with the current game's FEN position (and move history, if available). 
-            You will then make a move, by responding with a move object in the following format in JSON style:
-            {
-              from: /* string of starting square, i.e. "g7" */,
-              to: /* string of destination square, i.e. "g5" */,
-              position?: /* if needed, string of piece symbol, i.e. "q"
-            }
-            I'm using your response as input for a function, so no additional commentary beyond just the object.`
-            ,
-          },
-          {
-            role: "user",
-            content: `{fen: ${fen}, history: ${history}}`
-          },
-        ],
-        max_tokens: 100,
-      }),
-    });
-
-    const data = await response.json();
-    console.log("response from GPT: ", data.choices[0].message.content);
-
-    res.json(data);
-  } else {
-    res.json(game);
-  }
+  // console.log(game);
 });
 
 // seed route

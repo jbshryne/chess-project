@@ -5,7 +5,8 @@ const fen = $(".board")[0].dataset.fen;
 const gameId = $(".board")[0].dataset.gameid.replace(/"/g, "");
 // console.log(gameId);
 const chess = new Chess(fen);
-let board = null;
+let board
+
 
 // Function to show the promotion dialog
 function showPromotionDialog(move) {
@@ -109,34 +110,39 @@ function updateStatus() {
 async function onChange() {
   // console.log(chess.fen());
 
+  const gameConfig = {
+    gameId,
+    opponent,
+    fen: board.fen(),
+    currentTurn: chess.turn(),
+    history: chess.history(),
+    difficultyLevel: "advanced",
+  }
+
+  console.log(gameConfig.fen);
+
   const update = await fetch("/games/" + gameId + "/move?_method=PUT", {
     method: "PUT",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: new URLSearchParams({
-      fen: chess.fen(),
-      turn: chess.turn(),
-      history: chess.history()
-    }).toString(),
+    body: new URLSearchParams(gameConfig).toString(),
   });
 
   const data = await update.json();
 
-  if (data.choices) {
+  
 
-    const move = JSON.parse(data.choices[0].message.content)
+  if (data.choices) {
+    const move = JSON.parse(data.choices[0].message.content);
     console.log(data.choices[0].message.content);
 
-    chess.move(move)
-    board.position(chess.fen())
-
-
+    chess.move(move);
+    board.position(chess.fen());
   }
-
 }
 
-const config = {
+const boardConfig = {
   draggable: true,
   position: fen,
   moveSpeed: "slow",
@@ -146,6 +152,6 @@ const config = {
   onChange: onChange,
 };
 
-board = Chessboard($(".board")[0], config);
+ board = Chessboard($(".board")[0], boardConfig);
 
 updateStatus();

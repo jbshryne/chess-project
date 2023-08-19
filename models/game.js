@@ -6,6 +6,7 @@ const gameSchema = new Schema({
   playerWhite: { type: String, required: true },
   playerBlack: { type: String, required: true },
   opponent: { type: String, required: true },
+  difficultyLevel: String,
   notes: [String],
   fen: { type: String, required: true },
   capturedWhite: [String],
