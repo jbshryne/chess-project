@@ -16,6 +16,10 @@ app.use(express.json());
 app.use(methodOverride("_method"));
 app.use(session({ secret: "PompomElves", cookie: { maxAge: 720000 } }));
 
+app.get("/", (req, res) => {
+    res.redirect("/games")
+})
+
 app.get("/dburl", (req, res) => {
   res.send("Connection URL: " + process.env.DATABASE_URL);
 });
