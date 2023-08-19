@@ -1,7 +1,7 @@
 // console.log($(".board")[0]);
 
 const opponent = $(".board")[0].dataset.opponent;
-const fen = $(".board")[0].dataset.fen;
+let fen = $(".board")[0].dataset.fen;
 const gameId = $(".board")[0].dataset.gameid.replace(/"/g, "");
 // console.log(gameId);
 const chess = new Chess(fen);
@@ -113,7 +113,7 @@ async function onChange() {
   const gameConfig = {
     gameId,
     opponent,
-    fen: board.fen(),
+    fen: chess.fen(),
     currentTurn: chess.turn(),
     history: chess.history(),
     difficultyLevel: "advanced",
@@ -131,15 +131,13 @@ async function onChange() {
 
   const data = await update.json();
 
-  
+  // if (data.choices) {
+  //   const move = JSON.parse(data.choices[0].message.content);
+  //   console.log(data.choices[0].message.content);
 
-  if (data.choices) {
-    const move = JSON.parse(data.choices[0].message.content);
-    console.log(data.choices[0].message.content);
-
-    chess.move(move);
-    board.position(chess.fen());
-  }
+  //   chess.move(move);
+  //   board.position(chess.fen());
+  // }
 }
 
 const boardConfig = {

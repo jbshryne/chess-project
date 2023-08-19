@@ -37,8 +37,6 @@ router.put("/:id/move", async (req, res) => {
   const { gameId, opponent, fen, currentTurn, history, difficultyLevel } =
     req.body;
 
-  // res.json(game);
-
   // if (opponent === "cpu" && currentTurn === "b") {
   //   const response = await fetch("https://api.openai.com/v1/chat/completions", {
   //     method: "POST",
@@ -51,15 +49,15 @@ router.put("/:id/move", async (req, res) => {
   //       messages: [
   //         {
   //           role: "user",
-  //           content: `You are the engine of a chess app. 
+  //           content: `You are the engine of a chess app.
   //           I'll provide you with the current gamestate, and will then make a move, by responding with a move object:
   //           {
   //             from: /* string of starting square, i.e. "g7" */,
   //             to: /* string of destination square, i.e. "g5" */,
   //             position?: /* if needed, string of piece symbol, i.e. "q"
   //           }
-  //           Your response to this query will be read by a JSON parser as part of a function.  
-  //           Your response must simply be the JSON object.  
+  //           Your response to this query will be read by a JSON parser as part of a function.
+  //           Your response must simply be the JSON object.
   //           Do not preface your response object with any conversational setup, as that would cause the function to fail.`,
   //         },
   //         {
@@ -74,10 +72,10 @@ router.put("/:id/move", async (req, res) => {
   //   const data = await response.json();
   //   console.log("response from GPT: ", data.choices[0].message.content);
 
-
-
   //   res.json(data);
   // }
+
+  console.log('"updated fen" fen: ', fen);
 
   await Game.findOneAndUpdate(
     { _id: gameId },
