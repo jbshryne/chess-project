@@ -1,7 +1,6 @@
 const express = require("express");
 require("dotenv").config();
-const PORT = process.env.PORT
-// const PORT = 6464;
+const PORT = process.env.PORT || 6464
 const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
 const methodOverride = require("method-override")
@@ -17,6 +16,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"))
 app.use(session({ secret: "PompomElves", cookie: { maxAge: 720000 } }));
+
+app.get("/dburl", (req, res) => {
+    res.send("Connection URL: " + process.env.DATABASE_URL)
+})
 
 app.use(authRoutes);
 
