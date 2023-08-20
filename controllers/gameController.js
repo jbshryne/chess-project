@@ -6,9 +6,9 @@ const Game = require("../models/game");
 
 // index route
 router.get("/", async (req, res) => {
-  const user = await User.findById(req.session.userId).populate("games")
+  const user = await User.findById(req.session.userId).populate("games");
   // const games = await Game.find();
-  console.log(user);
+  // console.log(user);
   res.render("game/index", { user });
 });
 
@@ -33,20 +33,21 @@ router.get("/seed", async (req, res) => {
 
   console.log(seededGames);
 
-  const seededGameIds = []
-  seededGames.forEach(game => seededGameIds.push(game._id))
+  const seededGameIds = [];
+  seededGames.forEach((game) => seededGameIds.push(game._id));
 
   const user = await User.findByIdAndUpdate(
     req.session.userId,
     { $set: { games: seededGameIds } },
     { new: true }
   );
-  res.send(user);
+  res.redirect("/games");
 });
 
 // new route
-router.get("/new", (req, res) => {
-  res.render("game/new");
+router.get("/new", async (req, res) => {
+  const user = await User.findById(req.session.userId);
+  res.render("game/new", { user });
 });
 
 // delete route
@@ -123,9 +124,10 @@ router.put("/:id/move", async (req, res) => {
 
 // create route
 router.post("/", async (req, res) => {
-  // console.log(req.body);
-  let game = await Game.create(req.body);
-  // console.log(game._id);
+  req.body.userId = req.session.userId;
+  req.body.opponent = "local";
+  const game = await Game.create(req.body);
+  await User.findByIdAndUpdate(req.session.userId, {$push: {games: game._id}})
   res.json(game);
 });
 
