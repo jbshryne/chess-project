@@ -1,13 +1,47 @@
 const express = require("express");
 const router = express.Router();
 require("dotenv").config();
+const User = require("../models/user");
 const Game = require("../models/game");
 
 // index route
 router.get("/", async (req, res) => {
-  const games = await Game.find();
-  // console.log(chess.ascii(games[3].fen));
-  res.render("game/index", { games });
+  const user = await User.findById(req.session.userId).populate("games")
+  // const games = await Game.find();
+  console.log(user);
+  res.render("game/index", { user });
+});
+
+// seed route
+router.get("/seed", async (req, res) => {
+  const seededGames = await Game.create([
+    {
+      userId: req.session.userId,
+      opponent: "local",
+      playerWhite: "Jon",
+      playerBlack: "Ollie",
+      fen: "rnbq1b1r/1ppPkppp/7n/8/8/p4N2/PPPBPPPP/RN1QKB1R w KQkq - 0 1",
+    },
+    {
+      userId: req.session.userId,
+      opponent: "cpu",
+      playerWhite: "Kirk",
+      playerBlack: "Spock",
+      fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    },
+  ]);
+
+  console.log(seededGames);
+
+  const seededGameIds = []
+  seededGames.forEach(game => seededGameIds.push(game._id))
+
+  const user = await User.findByIdAndUpdate(
+    req.session.userId,
+    { $set: { games: seededGameIds } },
+    { new: true }
+  );
+  res.send(user);
 });
 
 // new route
@@ -85,26 +119,6 @@ router.put("/:id/move", async (req, res) => {
     }
   );
   // console.log(game);
-});
-
-// seed route
-router.get("/seed", async (req, res) => {
-  await Game.deleteMany({});
-  await Game.create([
-    {
-      opponent: "local",
-      playerWhite: "Jon",
-      playerBlack: "Ollie",
-      fen: "rnbq1b1r/1ppPkppp/7n/8/8/p4N2/PPPBPPPP/RN1QKB1R w KQkq - 0 1",
-    },
-    {
-      opponent: "cpu",
-      playerWhite: "Kirk",
-      playerBlack: "Spock",
-      fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-    },
-  ]);
-  res.redirect("/games");
 });
 
 // create route

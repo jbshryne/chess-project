@@ -6,6 +6,7 @@ const session = require("express-session");
 const methodOverride = require("method-override");
 const authRoutes = require("./controllers/authController");
 const gameRoutes = require("./controllers/gameController");
+const User = require("./models/user")
 const app = express();
 
 app.set("view engine", "ejs");
@@ -26,22 +27,28 @@ app.get("/dburl", (req, res) => {
 
 // seed route
 app.get("/seed", async (req, res) => {
-    await Game.deleteMany({});
-    await Game.create([
-      {
-        opponent: "local",
-        playerWhite: "Jon",
-        playerBlack: "Ollie",
-        fen: "rnbq1b1r/1ppPkppp/7n/8/8/p4N2/PPPBPPPP/RN1QKB1R w KQkq - 0 1",
-      },
-      {
-        opponent: "cpu",
-        playerWhite: "Kirk",
-        playerBlack: "Spock",
-        fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-      },
-    ]);
-    res.redirect("/games");
+
+  const users = await User.find()
+  res.send(users);
+
+
+
+    // await Game.deleteMany({});
+    // await Game.create([
+    //   {
+    //     opponent: "local",
+    //     playerWhite: "Jon",
+    //     playerBlack: "Ollie",
+    //     fen: "rnbq1b1r/1ppPkppp/7n/8/8/p4N2/PPPBPPPP/RN1QKB1R w KQkq - 0 1",
+    //   },
+    //   {
+    //     opponent: "cpu",
+    //     playerWhite: "Kirk",
+    //     playerBlack: "Spock",
+    //     fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    //   },
+    // ]);
+    // res.redirect("/games");
   });
 
 
