@@ -35,7 +35,7 @@ app.get("/seed", async (req, res) => {
       name: "Jon",
     },
     {
-      username: "otfgood",
+      username: "otfgoon",
       password: "$2b$10$HQ.w8ilKUmMV/B2NvrkjxeZDxdVRmqmgSs2.ebsYTcNNyIRbNnmJ6",
       name: "Ollie",
     },

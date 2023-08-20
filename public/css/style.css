@@ -53,17 +53,43 @@ a {
   padding: 10px
 }
 
-/* .board {
-  outline: 1px solid;
-} */
+button:focus,
+button:active {
+  outline: none; 
+  box-shadow: none; 
+}
+
 
 .boardBorder {
-  outline: 4px ridge rgb(22, 20, 20);;
+  outline: 4px ridge rgb(22, 20, 20);
+  display: flex;
+  justify-content: center;
   padding: 15px;
   margin: 5px;
   border-radius: 5%;
   background-color: rgb(83, 69, 69);
+  /* width: 75vw; */
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
+
+.board {
+  width: 35vw;
+}
+
+
+@media (max-width: 768px) {
+  .boardBorder {
+    padding: 10px;
+    margin: 0px;
+  }
+  .board {
+    width: 75vw;
+  }
+  
+}
+
 
 .gameContainer .playerName {
   font-size: 20px;
