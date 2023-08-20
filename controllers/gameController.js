@@ -33,7 +33,7 @@ router.put("/:id", async (req, res) => {
 
 // update route for moves
 router.put("/:id/move", async (req, res) => {
-  console.log("update move route hit, req.body.turn = ", req.body.currentTurn);
+  // console.log("update move route hit, req.body.turn = ", req.body.currentTurn);
   const { gameId, opponent, fen, currentTurn, history, difficultyLevel } =
     req.body;
 
@@ -75,7 +75,7 @@ router.put("/:id/move", async (req, res) => {
   //   res.json(data);
   // }
 
-  console.log('"updated fen" fen: ', fen);
+  // console.log('"updated fen" fen: ', fen);
 
   await Game.findOneAndUpdate(
     { _id: gameId },

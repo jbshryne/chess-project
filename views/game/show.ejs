@@ -1,13 +1,13 @@
 <main class="fullView">
   <span class="playerName"><%= game.playerBlack %></span>
+  <div id="promotionDialog" class="dialog">
+    <p>Choose a piece to promote your pawn:</p>
+    <button data-piece="q">Queen</button>
+    <button data-piece="r">Rook</button>
+    <button data-piece="n">Knight</button>
+    <button data-piece="b">Bishop</button>
+  </div>
   <div class="boardBorder">
-    <div id="promotionDialog" class="dialog">
-      <p>Choose a piece to promote your pawn:</p>
-      <button data-piece="q">Queen</button>
-      <button data-piece="r">Rook</button>
-      <button data-piece="n">Knight</button>
-      <button data-piece="b">Bishop</button>
-    </div>
     <div data-opponent="<%= game.opponent %>" data-fen="<%= game.fen %>" data-gameid="<%= JSON.stringify(game._id) %>" style="width: 480px" class="board">
     </div>
   </div>
