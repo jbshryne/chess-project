@@ -13,8 +13,8 @@ router.post("/login", async (req, res) => {
   if (userToLogin) {
     bcrypt.compare(req.body.password, userToLogin.password, (err, result) => {
       if (result) {
-        req.session.userId = userToLogin._id
-        req.session.name = userToLogin.name
+        req.session.userId = userToLogin._id;
+        req.session.name = userToLogin.name;
         res.redirect("/games");
       } else {
         res.send("wrong password");
@@ -32,10 +32,15 @@ router.post("/signup", async (req, res) => {
     bcrypt.hash(req.body.password, 10, async (err, hashed) => {
       req.body.password = hashed;
 
-      let newUser = await User.create(req.body);
-      res.send(newUser);
+      await User.create(req.body);
+      res.redirect("/login");
     });
   }
+});
+
+router.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/login");
 });
 
 module.exports = router;

@@ -1,5 +1,3 @@
-// console.log($(".board")[0]);
-
 const opponent = $(".board")[0].dataset.opponent;
 let fen = $(".board")[0].dataset.fen;
 const gameId = $(".board")[0].dataset.gameid.replace(/"/g, "");
@@ -8,42 +6,42 @@ const chess = new Chess(fen);
 let board;
 
 // Function to show the promotion dialog
-function showPromotionDialog(move) {
-  const promotion = window.prompt("dialog box called");
-  // Display the dialog
-  const dialog = document.getElementById("promotionDialog");
-  dialog.style.display = "block";
-  debugger;
-  // Attach event listeners to the dialog buttons
-  const buttons = dialog.querySelectorAll("button");
-  buttons.forEach((button) => {
-    button.addEventListener("click", () =>
-      handlePromotionSelection(button.dataset.piece, move)
-    );
-  });
-}
+// function showPromotionDialog(move) {
+//   // const promotion = window.prompt("dialog box called");
+//   // Display the dialog
+//   const dialog = document.getElementById("promotionDialog");
+//   dialog.style.display = "block";
+//   debugger;
+//   // Attach event listeners to the dialog buttons
+//   const buttons = dialog.querySelectorAll("button");
+//   buttons.forEach((button) => {
+//     button.addEventListener("click", () =>
+//       handlePromotionSelection(button.dataset.piece, move)
+//     );
+//   });
+// }
 
 // Function to handle promotion piece selection
-function handlePromotionSelection(selectedPiece, move) {
-  // Hide the dialog
-  const dialog = document.getElementById("promotionDialog");
-  dialog.style.display = "none";
+// function handlePromotionSelection(selectedPiece, move) {
+//   // Hide the dialog
+//   const dialog = document.getElementById("promotionDialog");
+//   dialog.style.display = "none";
 
-  // Remove event listeners
-  const buttons = dialog.querySelectorAll("button");
-  buttons.forEach((button) => {
-    button.removeEventListener("click", handlePromotionSelection);
-  });
+//   // Remove event listeners
+//   const buttons = dialog.querySelectorAll("button");
+//   buttons.forEach((button) => {
+//     button.removeEventListener("click", handlePromotionSelection);
+//   });
 
-  // Apply the promotion piece to the move and update the board
-  move.promotion = selectedPiece;
-  chess.move(move);
-  board.position(chess.fen());
-  updateStatus();
+//   // Apply the promotion piece to the move and update the board
+//   move.promotion = selectedPiece;
+//   chess.move(move);
+//   board.position(chess.fen());
+//   updateStatus();
 
-  // // Call the onChange function to update the server
-  // onChange();
-}
+//   // // Call the onChange function to update the server
+//   // onChange();
+// }
 
 function onDragStart(source, piece, position, orientation) {
   // do not pick up pieces if the game is over
@@ -59,7 +57,7 @@ function onDragStart(source, piece, position, orientation) {
 }
 
 function onDrop(source, target) {
-  console.log("piece dropped");
+  // console.log("piece dropped");
   const intendedMoves = chess.moves({ square: source, verbose: true });
   console.log(intendedMoves);
   let promotionPiece;
@@ -68,31 +66,31 @@ function onDrop(source, target) {
     return "snapback";
 
   if (intendedMoves[0].flags.search("p") !== -1) {
-    console.log("promotion");
+    // console.log("promotion");
     promotionPiece = window.prompt(
       "Promote this pawn into...? (type lowercase letter, i.e. 'q'"
     );
-    }
-    // see if move is legal
-
-    chess.move({
-      from: source,
-      to: target,
-      promotion: promotionPiece, // Default promotion to queen
-    });
-
-    // if (move !== null && move.flags.includes("p")) {
-    //   // Pawn promotion occurred, show dialog
-    //   showPromotionDialog(move);
-    // } else {
-    // board.position(chess.fen())
-    updateStatus();
   }
+  // see if move is legal
+
+  chess.move({
+    from: source,
+    to: target,
+    promotion: promotionPiece, // Default promotion to queen
+  });
+
+  // if (move !== null && move.flags.includes("p")) {
+  //   // Pawn promotion occurred, show dialog
+  //   showPromotionDialog(move);
+  // } else {
+  // board.position(chess.fen())
+  updateStatus();
+}
 
 // }
 
 function onSnapEnd() {
-  console.log("onSnapEnd fires");
+  // console.log("onSnapEnd fires");
   board.position(chess.fen());
 }
 
@@ -124,7 +122,7 @@ function updateStatus() {
 }
 
 async function onChange() {
-  console.log("position changed");
+  // console.log("position changed");
 
   const gameConfig = {
     gameId,
