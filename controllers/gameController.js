@@ -4,6 +4,10 @@ require("dotenv").config();
 const User = require("../models/user");
 const Game = require("../models/game");
 
+// const uci = require("node-uci");
+// const stockfish = new uci.Engine("/opt/homebrew/bin/stockfish");
+// stockfish.init();
+
 // index route
 router.get("/", async (req, res) => {
   const user = await User.findById(req.session.userId).populate("games");
@@ -44,6 +48,59 @@ router.get("/seed", async (req, res) => {
   res.redirect("/games");
 });
 
+// // test route
+// // Add a new route for the communication test
+// router.get("/test", async (req, res) => {
+//   try {
+//     const { spawn } = require("child_process");
+    
+//     // Spawn a new Stockfish process
+//     const stockfishProcess = spawn("/opt/homebrew/bin/stockfish");
+
+//     let responseData = "";
+
+//     // Event listeners to capture Stockfish responses
+//     stockfishProcess.stdout.on("data", (data) => {
+//       responseData += data;
+      
+//       // Check if the responseData contains the "uciok" message
+//       if (responseData.includes("uciok")) {
+//         // Send the "isready" command to Stockfish
+//         stockfishProcess.stdin.write("isready\n");
+//         stockfishProcess.stdin.end();
+//       }
+      
+//       // Check if the responseData contains the "readyok" message
+//       if (responseData.includes("readyok")) {
+//         // Send the "ucinewgame" command to Stockfish
+//         stockfishProcess.stdin.write("ucinewgame\n");
+        
+//         // Send the starting position to Stockfish
+//         stockfishProcess.stdin.write("position startpos\n");
+        
+//         // Send the "go depth 1" command to Stockfish
+//         stockfishProcess.stdin.write("go depth 1\n");
+//         stockfishProcess.stdin.end();
+//       }
+      
+//       // Check if the responseData contains the best move information
+//       const bestMoveMatch = responseData.match(/bestmove\s+(\w+)/);
+//       if (bestMoveMatch) {
+//         const bestMove = bestMoveMatch[1];
+        
+//         // Return the best move as a response
+//         res.json({ bestMove });
+//       }
+//     });
+
+//     // Send the "uci" command to Stockfish
+//     stockfishProcess.stdin.write("uci\n");
+//   } catch (error) {
+//     console.error("Error during communication test:", error);
+//     res.status(500).json({ error: "An error occurred during the test." });
+//   }
+// });
+
 // new route
 router.get("/new", async (req, res) => {
   const user = await User.findById(req.session.userId);
@@ -73,42 +130,15 @@ router.put("/:id/move", async (req, res) => {
     req.body;
 
   // if (opponent === "cpu" && currentTurn === "b") {
-  //   const response = await fetch("https://api.openai.com/v1/chat/completions", {
-  //     method: "POST",
-  //     headers: {
-  //       Authorization: `Bearer ${process.env.OPENAI_KEY}`,
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       model: "gpt-4",
-  //       messages: [
-  //         {
-  //           role: "user",
-  //           content: `You are the engine of a chess app.
-  //           I'll provide you with the current gamestate, and will then make a move, by responding with a move object:
-  //           {
-  //             from: /* string of starting square, i.e. "g7" */,
-  //             to: /* string of destination square, i.e. "g5" */,
-  //             position?: /* if needed, string of piece symbol, i.e. "q"
-  //           }
-  //           Your response to this query will be read by a JSON parser as part of a function.
-  //           Your response must simply be the JSON object.
-  //           Do not preface your response object with any conversational setup, as that would cause the function to fail.`,
-  //         },
-  //         {
-  //           role: "user",
-  //           content: `{ colorToMoveOnYourTurn: "${currentTurn}, currentDifficulty: ${difficultyLevel}, fen: ${fen}, history: ${history}}`,
-  //         },
-  //       ],
-  //       max_tokens: 50,
-  //     }),
-  //   });
-
-  //   const data = await response.json();
-  //   console.log("response from GPT: ", data.choices[0].message.content);
-
-  //   res.json(data);
-  // }
+  // let bestMove;
+  // stockfish.position(fen);
+  // stockfish.go({ depth: 20 }, async (response) => {
+  //   console.log("stockfish?")
+  //   bestMove = await response.bestmove;
+  //   console.log("bestMove =", bestMove);
+  // });
+  // // }
+  // console.log("bestMove = ", bestMove);
 
   // console.log('"updated fen" fen: ', fen);
 
@@ -127,7 +157,9 @@ router.post("/", async (req, res) => {
   req.body.userId = req.session.userId;
   req.body.opponent = "local";
   const game = await Game.create(req.body);
-  await User.findByIdAndUpdate(req.session.userId, {$push: {games: game._id}})
+  await User.findByIdAndUpdate(req.session.userId, {
+    $push: { games: game._id },
+  });
   res.json(game);
 });
 
@@ -146,3 +178,7 @@ router.get("/:id", async (req, res) => {
 });
 
 module.exports = router;
+
+// process.on('exit', () => {
+//   stockfish.quit();
+// });
