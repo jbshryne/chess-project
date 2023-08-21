@@ -3,6 +3,7 @@ const router = express.Router();
 require("dotenv").config();
 const User = require("../models/user");
 const Game = require("../models/game");
+let moveUpdateTimeout = null;
 
 // const uci = require("node-uci");
 // const stockfish = new uci.Engine("/opt/homebrew/bin/stockfish");
@@ -48,59 +49,6 @@ router.get("/seed", async (req, res) => {
   res.redirect("/games");
 });
 
-// // test route
-// // Add a new route for the communication test
-// router.get("/test", async (req, res) => {
-//   try {
-//     const { spawn } = require("child_process");
-    
-//     // Spawn a new Stockfish process
-//     const stockfishProcess = spawn("/opt/homebrew/bin/stockfish");
-
-//     let responseData = "";
-
-//     // Event listeners to capture Stockfish responses
-//     stockfishProcess.stdout.on("data", (data) => {
-//       responseData += data;
-      
-//       // Check if the responseData contains the "uciok" message
-//       if (responseData.includes("uciok")) {
-//         // Send the "isready" command to Stockfish
-//         stockfishProcess.stdin.write("isready\n");
-//         stockfishProcess.stdin.end();
-//       }
-      
-//       // Check if the responseData contains the "readyok" message
-//       if (responseData.includes("readyok")) {
-//         // Send the "ucinewgame" command to Stockfish
-//         stockfishProcess.stdin.write("ucinewgame\n");
-        
-//         // Send the starting position to Stockfish
-//         stockfishProcess.stdin.write("position startpos\n");
-        
-//         // Send the "go depth 1" command to Stockfish
-//         stockfishProcess.stdin.write("go depth 1\n");
-//         stockfishProcess.stdin.end();
-//       }
-      
-//       // Check if the responseData contains the best move information
-//       const bestMoveMatch = responseData.match(/bestmove\s+(\w+)/);
-//       if (bestMoveMatch) {
-//         const bestMove = bestMoveMatch[1];
-        
-//         // Return the best move as a response
-//         res.json({ bestMove });
-//       }
-//     });
-
-//     // Send the "uci" command to Stockfish
-//     stockfishProcess.stdin.write("uci\n");
-//   } catch (error) {
-//     console.error("Error during communication test:", error);
-//     res.status(500).json({ error: "An error occurred during the test." });
-//   }
-// });
-
 // new route
 router.get("/new", async (req, res) => {
   const user = await User.findById(req.session.userId);
@@ -123,34 +71,27 @@ router.put("/:id", async (req, res) => {
   res.json(update);
 });
 
-// update route for moves
 router.put("/:id/move", async (req, res) => {
-  // console.log("update move route hit, req.body.turn = ", req.body.currentTurn);
   const { gameId, opponent, fen, currentTurn, history, difficultyLevel } =
     req.body;
 
-  // if (opponent === "cpu" && currentTurn === "b") {
-  // let bestMove;
-  // stockfish.position(fen);
-  // stockfish.go({ depth: 20 }, async (response) => {
-  //   console.log("stockfish?")
-  //   bestMove = await response.bestmove;
-  //   console.log("bestMove =", bestMove);
-  // });
-  // // }
-  // console.log("bestMove = ", bestMove);
+  if (moveUpdateTimeout) {
+    clearTimeout(moveUpdateTimeout);
+  }
 
-  // console.log('"updated fen" fen: ', fen);
-
-  await Game.findOneAndUpdate(
-    { _id: gameId },
-    { fen },
-    {
-      new: true,
-    }
-  );
-  // console.log(game);
+  moveUpdateTimeout = setTimeout(async () => {
+    await Game.findOneAndUpdate(
+      { _id: gameId },
+      { fen },
+      {
+        new: true,
+      }
+    );
+    res.json({ success: true });
+  }, 1000); 
 });
+
+
 
 // create route
 router.post("/", async (req, res) => {

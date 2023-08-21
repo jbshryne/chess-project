@@ -10,7 +10,7 @@ const playerBlack = $("#status")[0].dataset.playerblack;
 const $statusWhite = $("#statusWhite");
 const $statusBlack = $("#statusBlack");
 
-$("body").css("background-color", "rgba(146, 145, 145, 0.8)")
+$("body").css("background-color", "rgba(146, 145, 145, 0.9)")
 
 // Function to show the promotion dialog
 // function showPromotionDialog(move) {

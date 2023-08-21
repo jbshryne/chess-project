@@ -60,7 +60,8 @@ h2 {
 }
 
 .heroImg {
-  width: 40vw;
+  width: 540px;
+  /* border-radius: 5px; */
 }
 
 a {
@@ -111,7 +112,7 @@ button,
   display: inline-block;
   padding: 10px 20px;
   background-color: rgba(8, 6, 6, 0.9);
-  color: gold;
+  color: rgb(255, 253, 243);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -121,7 +122,7 @@ button,
 
 button:hover,
 .button:hover {
-  background-color: gold;
+  background-color: rgb(229, 227, 216);
   color: rgba(8, 6, 6, 0.9);
 }
 
