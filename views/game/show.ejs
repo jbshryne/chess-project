@@ -1,17 +1,19 @@
 <main class="fullView">
-  <span class="playerName"><%= game.playerBlack %></span>
-  <div id="promotionDialog" class="dialog">
+  <div><span display="none" data-playerwhite="<%= game.playerWhite %>" data-playerblack="<%= game.playerBlack %>" id="status"></span></div>
+  <%# console.log("playerWhite=", game.playerWhite, "playerBlack=", game.playerBlack) %>
+  <div class="statusBox"><span class="playerName"  id="statusBlack"><%= game.playerBlack %></span></div>
+  <!-- <div id="promotionDialog" class="dialog">
     <p>Choose a piece to promote your pawn:</p>
     <button data-piece="q">Queen</button>
     <button data-piece="r">Rook</button>
     <button data-piece="n">Knight</button>
     <button data-piece="b">Bishop</button>
-  </div>
+  </div> -->
   <div class="boardBorder">
     <div data-opponent="<%= game.opponent %>" data-fen="<%= game.fen %>" data-gameid="<%= JSON.stringify(game._id) %>" class="board">
     </div>
   </div>
-  <span class="playerName"><%= game.playerWhite %></span>
+  <div class="statusBox"><span class="playerName" id="statusWhite"><%= game.playerWhite %></span></div>
   <div class="controls">
     <a href="/games"><button id="homeBtn">BACK TO GAMES</button></a>
     <a href="/games/<%= JSON.stringify(game._id).replace(/"/g, '') %>/edit" id="editBtn"><button>EDIT BOARDSTATE</button></a>

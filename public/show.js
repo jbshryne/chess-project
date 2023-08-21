@@ -4,6 +4,13 @@ const gameId = $(".board")[0].dataset.gameid.replace(/"/g, "");
 // console.log(gameId);
 const chess = new Chess(fen);
 let board;
+const $status = $("#status");
+const playerWhite = $("#status")[0].dataset.playerwhite;
+const playerBlack = $("#status")[0].dataset.playerblack;
+const $statusWhite = $("#statusWhite");
+const $statusBlack = $("#statusBlack");
+
+$("body").css("background-color", "rgba(146, 145, 145, 0.8)")
 
 // Function to show the promotion dialog
 // function showPromotionDialog(move) {
@@ -95,30 +102,47 @@ function onSnapEnd() {
 }
 
 function updateStatus() {
-  // var status = ''
-  // var moveColor = 'White'
-  // if (chess.turn() === 'b') {
-  //   moveColor = 'Black'
-  // }
+  let status = "";
+  let currentPlayer;
+  let moveColor = "White";
+  if (chess.turn() === "b") {
+    moveColor = "Black";
+  }
+
+  if (playerWhite === playerBlack) {
+    currentPlayer = moveColor;
+  } else {
+    if (chess.turn() === "w") currentPlayer = playerWhite;
+    if (chess.turn() === "b") currentPlayer = playerBlack;
+  }
+
   // checkmate?
-  // if (chess.in_checkmate()) {
-  //   status = 'Game over, ' + moveColor + ' is in checkmate.'
-  // }
+  if (chess.in_checkmate()) {
+    status = currentPlayer + " is in checkmate, Game over!";
+  }
   // draw?
-  // else if (chess.in_draw()) {
-  //   status = 'Game over, drawn position'
-  // }
+  else if (chess.in_draw()) {
+    status = "Game over, drawn position";
+  }
   // game still on
-  // else {
-  //   status = moveColor + ' to move'
-  //   // check?
-  //   if (chess.in_check()) {
-  //     status += ', ' + moveColor + ' is in check'
-  //   }
-  // }
-  // $status.html(status)
-  // $fen.html(chess.fen())
-  // $pgn.html(chess.pgn())
+  else {
+    status = currentPlayer + " to move";
+    // check?
+    if (chess.in_check()) {
+      status = currentPlayer + " must move out of check!";
+    }
+  }
+  // $status.html(status);
+  if (chess.turn() === "w") {
+    $statusWhite.html(status);
+    $statusWhite.css("opacity", "1")
+    $statusBlack.css("opacity", "0"); 
+   }
+  if (chess.turn() === "b") {
+    $statusBlack.html(status);
+    $statusBlack.css("opacity", "1")
+    $statusWhite.css("opacity", "0"); 
+  }
 }
 
 async function onChange() {
