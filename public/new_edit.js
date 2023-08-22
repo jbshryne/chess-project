@@ -1,5 +1,6 @@
-let fen;
 let gameId;
+let fen;
+let currentTurn = "w";
 
 if (window.location.href.match(/new$/)) {
   console.log("/new");
@@ -10,6 +11,7 @@ if (window.location.href.match(/edit$/)) {
   console.log("/edit");
   console.log($(".board")[0].dataset.fen);
   fen = $(".board")[0].dataset.fen;
+  currentTurn = $(".board")[0].dataset.currentTurn
   gameId = $(".board")[0].dataset.gameid.replace(/"/g, "");
 }
 
@@ -22,8 +24,18 @@ const board = Chessboard($(".board")[0], {
   sparePieces: true,
 });
 
+$("#blackToMove").on("change", function () {
+  currentTurn = "b"; // Set currentTurn to Black
+});
+
+$("#whiteToMove").on("change", function () {
+  currentTurn = "w"; // Set currentTurn to White
+});
+
 $("#startBtn").on("click", board.start);
 $("#clearBtn").on("click", board.clear);
+
+
 $("#submitBtn").on("click", async () => {
   if (board.fen() === "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR") {
     fen += " w KQkq - 0 1";
@@ -32,6 +44,7 @@ $("#submitBtn").on("click", async () => {
   const bodyObj = {
     playerWhite: $("#playerWhiteInput").val(),
     playerBlack: $("#playerBlackInput").val(),
+    currentTurn
   };
 
   if (window.location.href.match(/new$/)) {
@@ -52,7 +65,7 @@ $("#submitBtn").on("click", async () => {
   }
 
   if (window.location.href.match(/edit$/)) {
-    bodyObj.fen = board.fen() + " w KQkq - 0 1";
+    bodyObj.fen = board.fen() + " " + currentTurn + " KQkq - 0 1";
     const res = await fetch("/games/" + gameId + "?_method=PUT", {
       method: "PUT",
       headers: {

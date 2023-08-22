@@ -2,7 +2,9 @@
   <div id="testBoard"></div>
 </div> -->
 
-<div class="textBorder"> <h1><%= user.name %>'s Games</h1></div>
+<div class="textBorder">
+  <h1><%= user.name %>'s Games</h1>
+</div>
 <div class="controls">
   <a href="/games/new"><button>START A NEW GAME</button></a>
   <a href="/logout"><button>LOGOUT</button></a>
@@ -12,14 +14,13 @@
   <div>
     <% user.games.forEach(game => { %>
 
-
     <li class="gameContainer">
       <span class="playerName"><img class="playerColorImg" src="/img/bK.png" /><%= game.playerBlack %></span>
-     <a href="/games/<%= game._id %>">
-      <div class="boardContainer">
-        <div data-fen="<%= game.fen %>" id="<%= game._id %>" class="boardThumbnail">
+      <a href="/games/<%= game._id %>">
+        <div class="boardContainer">
+          <div data-fen="<%= game.fen %>" id="<%= game._id %>" class="boardThumbnail">
+          </div>
         </div>
-      </div>
       </a>
       <span class="playerName"><img class="playerColorImg" src="/img/wK.png" /><%= game.playerWhite %></span>
       <div class="controls"> <a href="/games/<%= game._id %>"><button>PLAY</button></a>

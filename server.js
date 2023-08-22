@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 const authRoutes = require("./controllers/authController");
 const gameRoutes = require("./controllers/gameController");
 const User = require("./models/user");
+const Game = require("./models/game")
 const app = express();
 
 app.set("view engine", "ejs");
@@ -28,6 +29,7 @@ app.get("/dburl", (req, res) => {
 // seed route
 app.get("/seed", async (req, res) => {
   await User.deleteMany({});
+  await Game.deleteMany({})
   await User.create([
     {
       username: "jbshryne",

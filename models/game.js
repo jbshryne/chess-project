@@ -3,16 +3,17 @@ const { Schema, model } = mongoose;
 
 const gameSchema = new Schema({
   userId: { ref: "User", type: mongoose.Schema.Types.ObjectId, required: true },
-  title: String,
+  gameTitle: String,
+  opponent: { type: String, required: true },
   playerWhite: { type: String, required: true },
   playerBlack: { type: String, required: true },
-  opponent: { type: String, required: true },
-  difficultyLevel: String,
-  notes: [String],
   fen: { type: String, required: true },
-  capturedWhite: [String],
-  capturedBlack: [String],
-  moveHistory: [String],
+  currentTurn: { type: String, required: true },
+  // moveHistory: [String],
+  // capturedWhite: [String],
+  // capturedBlack: [String],
+  // notes: [String],
+  // difficultyLevel: String,
 });
 
 const Game = new model("Game", gameSchema);

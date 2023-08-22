@@ -5,6 +5,7 @@ const gameId = $(".board")[0].dataset.gameid.replace(/"/g, "");
 const chess = new Chess(fen);
 let board;
 const $status = $("#status");
+// const gameTitle = $("#status")[0].dataset.gametitle;
 const playerWhite = $("#status")[0].dataset.playerwhite;
 const playerBlack = $("#status")[0].dataset.playerblack;
 const $statusWhite = $("#statusWhite");
@@ -148,13 +149,15 @@ function updateStatus() {
 async function onChange() {
   // console.log("position changed");
 
+  fen = chess.fen()
+
   const gameConfig = {
     gameId,
     opponent,
     fen: chess.fen(),
     currentTurn: chess.turn(),
-    history: chess.history(),
-    difficultyLevel: "advanced",
+    // history: chess.history(),
+    // difficultyLevel: "advanced",
   };
 
   console.log(gameConfig.fen);

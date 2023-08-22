@@ -5,10 +5,6 @@ const User = require("../models/user");
 const Game = require("../models/game");
 let moveUpdateTimeout = null;
 
-// const uci = require("node-uci");
-// const stockfish = new uci.Engine("/opt/homebrew/bin/stockfish");
-// stockfish.init();
-
 // index route
 router.get("/", async (req, res) => {
   const user = await User.findById(req.session.userId).populate("games");
@@ -25,6 +21,7 @@ router.get("/seed", async (req, res) => {
       opponent: "local",
       playerWhite: "Jon",
       playerBlack: "Ollie",
+      currentTurn: "w",
       fen: "rnbq1b1r/1ppPkppp/7n/8/8/p4N2/PPPBPPPP/RN1QKB1R w KQkq - 0 1",
     },
     {
@@ -32,7 +29,8 @@ router.get("/seed", async (req, res) => {
       opponent: "cpu",
       playerWhite: "Kirk",
       playerBlack: "Spock",
-      fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      currentTurn: "b",
+      fen: "rnbqkbnr/pppppppp/8/8/8/7P/PPPPPPP1/RNBQKBNR b KQkq - 1 1",
     },
   ]);
 
@@ -72,26 +70,26 @@ router.put("/:id", async (req, res) => {
 });
 
 router.put("/:id/move", async (req, res) => {
-  const { gameId, opponent, fen, currentTurn, history, difficultyLevel } =
-    req.body;
+  const { gameId, opponent, fen, currentTurn } = req.body;
+
+  console.log("Received data: ", fen);
 
   if (moveUpdateTimeout) {
     clearTimeout(moveUpdateTimeout);
   }
 
   moveUpdateTimeout = setTimeout(async () => {
-    await Game.findOneAndUpdate(
+    const update = await Game.findOneAndUpdate(
       { _id: gameId },
-      { fen },
+      { fen, currentTurn },
       {
         new: true,
       }
     );
     res.json({ success: true });
-  }, 1000); 
+    console.log(update);
+  }, 1000);
 });
-
-
 
 // create route
 router.post("/", async (req, res) => {
@@ -119,7 +117,3 @@ router.get("/:id", async (req, res) => {
 });
 
 module.exports = router;
-
-// process.on('exit', () => {
-//   stockfish.quit();
-// });
