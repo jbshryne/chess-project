@@ -14,7 +14,7 @@ router.post("/login", async (req, res) => {
     bcrypt.compare(req.body.password, userToLogin.password, (err, result) => {
       if (result) {
         req.session.userId = userToLogin._id;
-        req.session.name = userToLogin.name;
+        req.session.username = userToLogin.username;
         res.redirect("/games");
       } else {
         res.send("wrong password");

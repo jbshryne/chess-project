@@ -6,7 +6,6 @@ const chess = new Chess(fen);
 let board;
 
 const $status = $("#status");
-// const gameTitle = $("#status")[0].dataset.gametitle;
 const playerWhite = $("#status")[0].dataset.playerwhite;
 const playerBlack = $("#status")[0].dataset.playerblack;
 const $statusWhite = $("#statusWhite");
@@ -14,6 +13,7 @@ const $statusBlack = $("#statusBlack");
 
 $("body").css("background-color", "rgba(146, 145, 145, 0.9)");
 
+// Chessboard.js integration
 function onDragStart(source, piece, position, orientation) {
   // do not pick up pieces if the game is over
   if (chess.game_over()) return false;
@@ -53,12 +53,35 @@ function onDrop(source, target) {
   updateStatus();
 }
 
-// }
-
 function onSnapEnd() {
   board.position(chess.fen());
 }
 
+async function onChange() {
+  fen = chess.fen();
+
+  const gameConfig = {
+    gameId,
+    opponent,
+    fen: chess.fen(),
+    currentTurn: chess.turn(),
+    // history: chess.history(),
+    // difficultyLevel: "advanced",
+  };
+
+  console.log(gameConfig.fen);
+
+  const update = await fetch("/games/" + gameId + "/move?_method=PUT", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams(gameConfig).toString(),
+  });
+
+  await update.json();
+}
+// Updating "status" boxes for each player w/ every move
 function updateStatus() {
   let status = "";
   let currentPlayer;
@@ -89,31 +112,6 @@ function updateStatus() {
     $statusWhite.fadeTo("slow", 0);
     $statusBlack.fadeTo("slow", 0.9);
   }
-}
-
-async function onChange() {
-  fen = chess.fen();
-
-  const gameConfig = {
-    gameId,
-    opponent,
-    fen: chess.fen(),
-    currentTurn: chess.turn(),
-    // history: chess.history(),
-    // difficultyLevel: "advanced",
-  };
-
-  console.log(gameConfig.fen);
-
-  const update = await fetch("/games/" + gameId + "/move?_method=PUT", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams(gameConfig).toString(),
-  });
-
-  await update.json();
 }
 
 const boardConfig = {
