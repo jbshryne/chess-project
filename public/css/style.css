@@ -49,6 +49,10 @@ body {
   padding: 5px;
 }
 
+.playerStatus {
+  opacity: 0;
+}
+
 h1 {
   font-weight: 700;
   margin: 5px;

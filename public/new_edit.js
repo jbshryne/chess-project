@@ -26,23 +26,16 @@ const board = Chessboard($(".board")[0], {
 
 $("#blackToMove").on("change", function () {
   currentTurn = "b"; // Set currentTurn to Black
-  console.log(currentTurn);
 });
 
 $("#whiteToMove").on("change", function () {
   currentTurn = "w"; // Set currentTurn to White
-  console.log(currentTurn);
-
 });
 
 $("#startBtn").on("click", board.start);
 $("#clearBtn").on("click", board.clear);
 
-
 $("#submitBtn").on("click", async () => {
-  if (board.fen() === "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR") {
-    fen += " w KQkq - 0 1";
-  }
 
   const bodyObj = {
     playerWhite: $("#playerWhiteInput").val(),
@@ -62,7 +55,7 @@ $("#submitBtn").on("click", async () => {
     let response = await res.json();
     if (response) {
       console.log(response);
-      //   debugger;
+
       window.location.href = `/games/${response._id}`;
     }
   }
