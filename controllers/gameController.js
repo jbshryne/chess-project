@@ -4,7 +4,6 @@ require("dotenv").config();
 
 const User = require("../models/user");
 const Game = require("../models/game");
-let moveUpdateTimeout = null;
 
 // index route
 router.get("/", async (req, res) => {
@@ -26,7 +25,7 @@ router.get("/seed", async (req, res) => {
     },
     {
       userId: req.session.userId,
-      opponent: "cpu",
+      opponent: "local",
       playerWhite: "Kirk",
       playerBlack: "Spock",
       currentTurn: "b",
@@ -68,6 +67,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // update route (move)
+let moveUpdateTimeout = null;
 router.put("/:id/move", async (req, res) => {
   const { gameId, fen, currentTurn } = req.body;
 

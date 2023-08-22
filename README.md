@@ -44,19 +44,20 @@ The working build of CHESSMIXED is being hosted [here](https://chessmixed.onrend
 ### Next Steps 
 
 #### The next immediate steps will be enhancing the UI, with things like:
-  * Visual history of captured pieces
-  * Dialog boxes ("Are you sure?", etc)
-  * Option to take back last move
-  * Adding notes & optional title to game
+* Visual history of captured pieces
+* Dialog boxes ("Are you sure?", etc)
+* Option to take back last move
+* Adding notes & optional title to game
+* Improved login & signup experience
 #### Future upgrades, with current planned technologies:
-* Making admin account
+* Making admin accounts
 * Integrate [Stockfish](https://disservin.github.io/stockfish-docs/pages/Home.html) and [Node-UCI](https://github.com/ebemunk/node-uci) to have a CPU player
 * Implement 1v1 multilpayer mode with [Socket.IO](https://socket.io/docs/v4/)
  * Querying good ol' GPT for game analyses, tips, etc
  * The "MIXED" part, i.e. a Whacky game mode with things like:
-   * [fairy pieces](https://en.wikipedia.org/wiki/Fairy_chess_piece)
-   * a system of aquired usable "powers" (like a hand of cards), to do things like morph one piece into another, bring one of your captured pieces back, or destroy an enemy piece
-   * environmental obsticles, like one square now being a "swamp" (sliding pieces must end their move) or "hole" (only can be jumped over)
+   * [Fairy pieces](https://en.wikipedia.org/wiki/Fairy_chess_piece)
+   * A system of aquired usable "powers" (like a hand of cards), to do things like morph one piece into another, bring one of your captured pieces back, or destroy an enemy piece
+   * Environmental obsticles, like one square being a "swamp" (sliding pieces must end their move) or a "hole" (can only be jumped over)
 
 ### Dev History
 

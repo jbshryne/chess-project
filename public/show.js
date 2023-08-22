@@ -81,7 +81,7 @@ async function onChange() {
 
   await update.json();
 }
-// Updating "status" boxes for each player w/ every move
+// Updating each player's "status box" w/ every move
 function updateStatus() {
   let status = "";
   let currentPlayer;
@@ -123,7 +123,6 @@ const boardConfig = {
   onSnapEnd: onSnapEnd,
   onChange: onChange,
 };
-
 board = Chessboard($(".board")[0], boardConfig);
 
 updateStatus();
