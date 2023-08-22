@@ -26,10 +26,13 @@ const board = Chessboard($(".board")[0], {
 
 $("#blackToMove").on("change", function () {
   currentTurn = "b"; // Set currentTurn to Black
+  console.log(currentTurn);
 });
 
 $("#whiteToMove").on("change", function () {
   currentTurn = "w"; // Set currentTurn to White
+  console.log(currentTurn);
+
 });
 
 $("#startBtn").on("click", board.start);
@@ -44,11 +47,11 @@ $("#submitBtn").on("click", async () => {
   const bodyObj = {
     playerWhite: $("#playerWhiteInput").val(),
     playerBlack: $("#playerBlackInput").val(),
-    currentTurn
+    currentTurn,
+    fen: board.fen() + " " + currentTurn + " KQkq - 0 1"
   };
 
   if (window.location.href.match(/new$/)) {
-    bodyObj.fen = board.fen() + " w KQkq - 0 1";
     let res = await fetch("/games", {
       method: "POST",
       headers: {
@@ -65,7 +68,6 @@ $("#submitBtn").on("click", async () => {
   }
 
   if (window.location.href.match(/edit$/)) {
-    bodyObj.fen = board.fen() + " " + currentTurn + " KQkq - 0 1";
     const res = await fetch("/games/" + gameId + "?_method=PUT", {
       method: "PUT",
       headers: {

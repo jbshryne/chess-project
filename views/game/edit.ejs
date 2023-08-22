@@ -1,19 +1,17 @@
 <main class="fullView freeMode">
-  <!-- <label for="gameTitle"><input type="text" name="gameTitle" value="<%# game.gameTitle ? game.gameTitle : '' %>" placeholder="Name for this game?"></label> -->
   <div class="playerName" id="playerBlackName">
-    <label for="playerBlackInput">Playing Black: </label>
-    <input type="text" id="playerBlackInput" value="<%= game.playerBlack %>" placeholder="Who is Playing Black?">
-    <input type="radio" id="blacktoMove" name="currentTurn" value="b" <% if (game.currentTurn === "b") { %>checked<% } %>>
-    <label for="blacktoMove">Black to move</label>
+    <label for="playerBlackInput">Player Black: </label><input type="text" id="playerBlackInput" value="<%= game.playerBlack %>" placeholder="Who is Playing Black?">
+    <label for="blacktoMove">Black to move
+      <input type="radio" id="blackToMove" name="currentTurn" value="b" <% if (game.currentTurn === "b") { %>checked<% } %>></label>
   </div>
   <div class="boardBorder">
     <div data-fen="<%= game.fen %>" data-gameid="<%= JSON.stringify(game._id) %>" data-current-turn="<%= game.currentTurn %>" style="width: 420px" class="board"></div>
   </div>
   <div class="playerName" id="playerWhiteName">
-    <label for="playerWhiteInput">Playing White: </label>
-    <input type="text" id="playerWhiteInput" value="<%= game.playerWhite %>" placeholder="Who is Playing White?">
-    <input type="radio" id="whiteToMove" name="currentTurn" value="w" <% if (game.currentTurn === "w") { %>checked<% } %>>
-    <label for="whiteToMove">White to move</label>
+    <label for="playerWhiteInput">Player White: </label><input type="text" id="playerWhiteInput" value="<%= game.playerWhite %>" placeholder="Who is Playing White?">
+    <label for="whiteToMove">White to move
+      <input type="radio" id="whiteToMove" name="currentTurn" value="w" <% if (game.currentTurn === "w") { %>checked<% } %>>
+    </label>
   </div>
   <div class="controls">
     <a href="/games" id="homeBtn"><button>BACK TO GAMES</button></a>

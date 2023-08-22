@@ -61,11 +61,13 @@ h2 {
 
 label {
   font-size: 16px;
+  margin: 0 10px
 }
 
 .heroImg {
   width: 540px;
   max-width: 100%;
+  border-radius: 5px;
 }
 
 a {
@@ -126,7 +128,7 @@ button,
   background-color: rgba(8, 6, 6, 0.9);
   color: rgb(255, 253, 243);
   border: none;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s ease, color 0.3s ease;

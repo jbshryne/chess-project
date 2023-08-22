@@ -13,44 +13,6 @@ const $statusBlack = $("#statusBlack");
 
 $("body").css("background-color", "rgba(146, 145, 145, 0.9)")
 
-// Function to show the promotion dialog
-// function showPromotionDialog(move) {
-//   // const promotion = window.prompt("dialog box called");
-//   // Display the dialog
-//   const dialog = document.getElementById("promotionDialog");
-//   dialog.style.display = "block";
-//   debugger;
-//   // Attach event listeners to the dialog buttons
-//   const buttons = dialog.querySelectorAll("button");
-//   buttons.forEach((button) => {
-//     button.addEventListener("click", () =>
-//       handlePromotionSelection(button.dataset.piece, move)
-//     );
-//   });
-// }
-
-// Function to handle promotion piece selection
-// function handlePromotionSelection(selectedPiece, move) {
-//   // Hide the dialog
-//   const dialog = document.getElementById("promotionDialog");
-//   dialog.style.display = "none";
-
-//   // Remove event listeners
-//   const buttons = dialog.querySelectorAll("button");
-//   buttons.forEach((button) => {
-//     button.removeEventListener("click", handlePromotionSelection);
-//   });
-
-//   // Apply the promotion piece to the move and update the board
-//   move.promotion = selectedPiece;
-//   chess.move(move);
-//   board.position(chess.fen());
-//   updateStatus();
-
-//   // // Call the onChange function to update the server
-//   // onChange();
-// }
-
 function onDragStart(source, piece, position, orientation) {
   // do not pick up pieces if the game is over
   if (chess.game_over()) return false;
@@ -136,14 +98,17 @@ function updateStatus() {
   // $status.html(status);
   if (chess.turn() === "w") {
     $statusWhite.html(status);
-    $statusWhite.css("opacity", "1")
-    $statusBlack.css("opacity", "0"); 
-   }
-  if (chess.turn() === "b") {
+    $statusBlack.fadeTo("slow", 0, function() {
+      $statusWhite.fadeTo("slow", 1);
+    });
+  } else if (chess.turn() === "b") {
     $statusBlack.html(status);
-    $statusBlack.css("opacity", "1")
-    $statusWhite.css("opacity", "0"); 
+    $statusWhite.fadeTo("slow", 0, function() {
+      $statusBlack.fadeTo("slow", 1);
+
+    });
   }
+
 }
 
 async function onChange() {
@@ -172,13 +137,6 @@ async function onChange() {
 
   const data = await update.json();
 
-  // if (data.choices) {
-  //   const move = JSON.parse(data.choices[0].message.content);
-  //   console.log(data.choices[0].message.content);
-
-  //   chess.move(move);
-  //   board.position(chess.fen());
-  // }
 }
 
 const boardConfig = {

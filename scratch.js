@@ -1,3 +1,45 @@
+////// piece promotion
+
+// Function to show the promotion dialog
+// function showPromotionDialog(move) {
+//   // const promotion = window.prompt("dialog box called");
+//   // Display the dialog
+//   const dialog = document.getElementById("promotionDialog");
+//   dialog.style.display = "block";
+//   debugger;
+//   // Attach event listeners to the dialog buttons
+//   const buttons = dialog.querySelectorAll("button");
+//   buttons.forEach((button) => {
+//     button.addEventListener("click", () =>
+//       handlePromotionSelection(button.dataset.piece, move)
+//     );
+//   });
+// }
+
+// Function to handle promotion piece selection
+// function handlePromotionSelection(selectedPiece, move) {
+//   // Hide the dialog
+//   const dialog = document.getElementById("promotionDialog");
+//   dialog.style.display = "none";
+
+//   // Remove event listeners
+//   const buttons = dialog.querySelectorAll("button");
+//   buttons.forEach((button) => {
+//     button.removeEventListener("click", handlePromotionSelection);
+//   });
+
+//   // Apply the promotion piece to the move and update the board
+//   move.promotion = selectedPiece;
+//   chess.move(move);
+//   board.position(chess.fen());
+//   updateStatus();
+
+//   // // Call the onChange function to update the server
+//   // onChange();
+// }
+
+
+
 // NOTE: this example uses the chess.js library:
 // https://github.com/jhlywa/chess.js
 
@@ -152,3 +194,15 @@ router.get("/test", async (req, res) => {
     res.status(500).json({ error: "An error occurred during the test." });
   }
 });
+
+
+
+////// html for dialog box
+
+// <!-- <div id="promotionDialog" class="dialog">
+// <p>Choose a piece to promote your pawn:</p>
+// <button data-piece="q">Queen</button>
+// <button data-piece="r">Rook</button>
+// <button data-piece="n">Knight</button>
+// <button data-piece="b">Bishop</button>
+// </div> -->

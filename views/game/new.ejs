@@ -1,13 +1,21 @@
 <main class="fullView freeMode">
   <!-- <label for="gameTitle"><input type="text" name="gameTitle" id="gameTitleInput" placeholder="Name for this game?"></label> -->
-  <label for="playerBlackInput">Player Black: 
-  <input type="text" name="playerBlackInput" id="playerBlackInput" value="Opponent" placeholder="Who is Playing Black?"></input></label>
+  <div class="playerName" id="playerBlackName">
+    <label for="playerBlackInput">Player Black: </label><input type="text" id="playerBlackInput" value="Opponent" placeholder="Who is Playing Black?">
+    <label for="blacktoMove">Black to move
+      <input type="radio" id="blackToMove" name="currentTurn" value="b"></label>
+  </div>
+
   <div class="boardBorder">
     <div style="width: 420px" class="board">
     </div>
   </div>
-  <label for="playerWhiteInput">Player White: 
-  <input type="text" name="playerWhiteInput" id="playerWhiteInput" value="<%= user.name %>" placeholder="Who is Playing White?"></input></label>
+  <div class="playerName" id="playerWhiteName">
+    <label for="playerWhiteInput">Player White: </label><input type="text" id="playerWhiteInput" value="<%= user.name %>" placeholder="Who is Playing White?">
+    <label for="whiteToMove">White to move
+      <input type="radio" id="whiteToMove" name="currentTurn" value="w" checked>
+    </label>
+  </div>
   <div class="controls">
     <a href="/games" id="homeBtn"><button>BACK TO GAMES</button></a>
     <button id="startBtn">RESET BOARD</button>
