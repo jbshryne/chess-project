@@ -9,9 +9,9 @@ const gameSchema = new Schema({
   fen: { type: String, required: true },
   currentTurn: { type: String, required: true },
   gameTitle: String,
+  capturedWhite: [String],
+  capturedBlack: [String],
   // moveHistory: [String],
-  // capturedWhite: [String],
-  // capturedBlack: [String],
   // notes: [String],
   // difficultyLevel: String,
 });

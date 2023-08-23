@@ -1,15 +1,19 @@
-const opponent = $(".board")[0].dataset.opponent;
-const gameId = $(".board")[0].dataset.gameid.replace(/"/g, "");
-let fen = $(".board")[0].dataset.fen;
+const boardData = $(".board")[0].dataset
+const gameId = boardData.gameid.replace(/"/g, "");
+let fen = boardData.fen;
+const opponent = boardData.opponent;
+const capturedWhite = JSON.parse(boardData.capturedwhite);
+const capturedBlack = JSON.parse(boardData.capturedblack);
 
 const chess = new Chess(fen);
 let board;
 
-const $status = $("#status");
 const playerWhite = $("#status")[0].dataset.playerwhite;
 const playerBlack = $("#status")[0].dataset.playerblack;
 const $statusWhite = $("#statusWhite");
 const $statusBlack = $("#statusBlack");
+const $capturedWhite = $("#capturedWhite");
+const $capturedBlack = $("#capturedBlack");
 
 $("body").css("background-color", "rgba(146, 145, 145, 0.9)");
 
@@ -30,18 +34,29 @@ function onDragStart(source, piece, position, orientation) {
 function onDrop(source, target) {
   let promotionPiece;
   // see if move is legal
-  const intendedMoves = chess.moves({ square: source, verbose: true });
-  // illegal move
-  if (!intendedMoves.find((move) => move.from === source && move.to === target))
-    return "snapback";
+  const possibleMoves = chess.moves({ square: source, verbose: true });
+  const intendedMove = possibleMoves.find(
+    (move) => move.from === source && move.to === target
+  );
+  if (!intendedMove) return "snapback";
+
   // check for pawn promotion
-  if (intendedMoves[0].flags.search("p") !== -1) {
+  if (intendedMove.flags.search("p") !== -1) {
     // NOTE: window.prompt is a temporary functional solution
     // as I haven't been able to integrate a custom dialog box
     // into the chessboard.js function chain yet
     promotionPiece = window.prompt(
-      "Promote this pawn into...? (type lowercase letter, i.e. 'q'"
+      "Promote this pawn into...? (type symbol letter, i.e. 'n' for knight)"
     );
+  }
+  // check for capture
+  if (intendedMove.captured) {
+    const capturedColor = chess.turn() === "w" ? "b" : "w";
+    const capturedPiece = capturedColor + intendedMove.captured.toUpperCase();
+    const imageEl = `<img class="capturedPiece ${capturedPiece}" src="/img/${capturedPiece}.png" />`;
+    console.log(capturedPiece);
+    if (capturedColor === "w") $capturedWhite.append(imageEl);
+    if (capturedColor === "b") $capturedBlack.append(imageEl);
   }
 
   chess.move({
@@ -69,7 +84,7 @@ async function onChange() {
     // difficultyLevel: "advanced",
   };
 
-  console.log(gameConfig.fen);
+  // console.log(gameConfig.fen);
 
   const update = await fetch("/games/" + gameId + "/move?_method=PUT", {
     method: "PUT",
