@@ -25,6 +25,7 @@ The reason for the title "chess-*mixed*" will not become obvious until much late
 * jQuery
 * Node.js / Express
 * MongoDB / Mongoose
+* Google Fonts
 * [chess.js](https://github.com/jhlywa/chess.js/blob/master/README.md)
 * [chessboard.js](https://chessboardjs.com)
 * *Future updates may utilize:*
@@ -46,6 +47,7 @@ The working build of CHESSMIXED is being hosted [here](https://chessmixed.onrend
 #### The next immediate steps will be enhancing the UI, with things like:
 * Visual history of captured pieces
 * Dialog boxes ("Are you sure?", etc)
+* Click to select squares rather than drag & drop, for easier play on touchscreens
 * Option to take back last move
 * Adding notes & optional title to game
 * Improved login & signup experience
@@ -53,11 +55,11 @@ The working build of CHESSMIXED is being hosted [here](https://chessmixed.onrend
 * Making admin accounts
 * Integrate [Stockfish](https://disservin.github.io/stockfish-docs/pages/Home.html) and [Node-UCI](https://github.com/ebemunk/node-uci) to have a CPU player
 * Implement 1v1 multilpayer mode with [Socket.IO](https://socket.io/docs/v4/)
- * Querying good ol' GPT for game analyses, tips, etc
- * The "MIXED" part, i.e. a Whacky game mode with things like:
-   * [Fairy pieces](https://en.wikipedia.org/wiki/Fairy_chess_piece)
-   * A system of aquired usable "powers" (like a hand of cards), to do things like morph one piece into another, bring one of your captured pieces back, or destroy an enemy piece
-   * Environmental obsticles, like one square being a "swamp" (sliding pieces must end their move) or a "hole" (can only be jumped over)
+* Querying good ol' GPT for game analyses, tips, etc
+* The "MIXED" part, i.e. a Whacky game mode with things like:
+  * [Fairy pieces](https://en.wikipedia.org/wiki/Fairy_chess_piece)
+  * A system of aquired usable "powers" (like a hand of cards), to do things like morph one piece into another, bring one of your captured pieces back, or destroy an enemy piece
+  * Environmental obsticles, like one square being a "swamp" (sliding pieces must end their move) or a "hole" (can only be jumped over)
 
 ### Dev History
 
