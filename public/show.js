@@ -2,8 +2,6 @@ const boardData = $(".board")[0].dataset
 const gameId = boardData.gameid.replace(/"/g, "");
 let fen = boardData.fen;
 const opponent = boardData.opponent;
-const capturedWhite = JSON.parse(boardData.capturedwhite);
-const capturedBlack = JSON.parse(boardData.capturedblack);
 
 const chess = new Chess(fen);
 let board;
@@ -55,8 +53,8 @@ function onDrop(source, target) {
     const capturedPiece = capturedColor + intendedMove.captured.toUpperCase();
     const imageEl = `<img class="capturedPiece ${capturedPiece}" src="/img/${capturedPiece}.png" />`;
     console.log(capturedPiece);
-    if (capturedColor === "w") $capturedWhite.append(imageEl);
-    if (capturedColor === "b") $capturedBlack.append(imageEl);
+    // if (capturedColor === "w") $capturedWhite.append(imageEl);
+    // if (capturedColor === "b") $capturedBlack.append(imageEl);
   }
 
   chess.move({
