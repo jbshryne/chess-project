@@ -1,4 +1,4 @@
-const boardData = $(".board")[0].dataset
+const boardData = $(".board")[0].dataset;
 const gameId = boardData.gameid.replace(/"/g, "");
 let fen = boardData.fen;
 const opponent = boardData.opponent;
@@ -13,7 +13,7 @@ const $statusBlack = $("#statusBlack");
 const $capturedWhite = $("#capturedWhite");
 const $capturedBlack = $("#capturedBlack");
 
-$("body").css("background-color", "rgba(146, 145, 145, 0.9)");
+// $("body").css("background-color", "rgba(146, 145, 145, 0.9)");
 
 // Chessboard.js integration
 function onDragStart(source, piece, position, orientation) {
@@ -30,8 +30,7 @@ function onDragStart(source, piece, position, orientation) {
 }
 
 function onDrop(source, target) {
-  let promotionPiece;
-  // see if move is legal
+  // allow if move is legal
   const possibleMoves = chess.moves({ square: source, verbose: true });
   const intendedMove = possibleMoves.find(
     (move) => move.from === source && move.to === target
@@ -39,6 +38,7 @@ function onDrop(source, target) {
   if (!intendedMove) return "snapback";
 
   // check for pawn promotion
+  let promotionPiece;
   if (intendedMove.flags.search("p") !== -1) {
     // NOTE: window.prompt is a temporary functional solution
     // as I haven't been able to integrate a custom dialog box
@@ -51,7 +51,7 @@ function onDrop(source, target) {
   if (intendedMove.captured) {
     const capturedColor = chess.turn() === "w" ? "b" : "w";
     const capturedPiece = capturedColor + intendedMove.captured.toUpperCase();
-    const imageEl = `<img class="capturedPiece ${capturedPiece}" src="/img/${capturedPiece}.png" />`;
+    const imageEl = `<img data-piece=${capturedPiece} src="/img/${capturedPiece}.png" alt="captured piece: ${capturedColor}${capturedPiece}"/>`;
     console.log(capturedPiece);
     // if (capturedColor === "w") $capturedWhite.append(imageEl);
     // if (capturedColor === "b") $capturedBlack.append(imageEl);
@@ -77,14 +77,16 @@ async function onChange() {
     gameId,
     opponent,
     fen: chess.fen(),
+    pgn: chess.pgn(),
     currentTurn: chess.turn(),
+    validMoves: chess.moves(),
     // history: chess.history(),
     // difficultyLevel: "advanced",
   };
 
-  // console.log(gameConfig.fen);
+  console.log(gameConfig.fen);
 
-  const update = await fetch("/games/" + gameId + "/move?_method=PUT", {
+  const response = await fetch("/games/" + gameId + "/move?_method=PUT", {
     method: "PUT",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -92,7 +94,14 @@ async function onChange() {
     body: new URLSearchParams(gameConfig).toString(),
   });
 
-  await update.json();
+  if (opponent === "cpu" && chess.turn() === "b") {
+    const newMove = await response.json();
+    console.log(newMove);
+    if (newMove.from && newMove.to && newMove.newFen) {
+      chess.move({ from: newMove.from, to: newMove.to });
+      board.position(newMove.newFen);
+    }
+  }
 }
 // Updating each player's "status box" w/ every move
 function updateStatus() {

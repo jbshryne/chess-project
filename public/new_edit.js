@@ -3,12 +3,12 @@ let fen;
 let currentTurn = "w";
 
 if (window.location.href.match(/new$/)) {
-  console.log("/new");
+  // console.log("/new");
   fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 }
 
 if (window.location.href.match(/edit$/)) {
-  console.log("/edit");
+  // console.log("/edit");
   console.log($(".board")[0].dataset.fen);
   fen = $(".board")[0].dataset.fen;
   currentTurn = $(".board")[0].dataset.currentTurn
